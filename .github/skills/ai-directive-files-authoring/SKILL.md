@@ -68,5 +68,5 @@ verification:
   self-validation:
     description: "This AI directive file MUST pass all verification methods defined herein"
     meta-circular: true
-    assertion: "The file SKILL.md is itself an AI directive file and MUST strictly conform to every rule it defines"
+    assertion: "The file .github/skills/ai-directive-files-authoring/SKILL.md is itself an AI directive file and MUST strictly conform to every rule it defines"
 ```
