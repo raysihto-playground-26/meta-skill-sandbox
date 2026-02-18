@@ -3,12 +3,12 @@ name: "meta-skill.ai-directive-files-authoring"
 description: "Skill for authoring AI directive files; defines mandatory standards, norms, and format specifications that all AI directive files must conform to"
 version: "1.0.0"
 globs:
-  - "skills/**/*.md"
-  - "skills/**/*.mdc"
-  - "rules/**/*.md"
-  - "rules/**/*.mdc"
-  - "agents/**/*.md"
-  - "agents/**/*.mdc"
+  - ".copilot/skills/**/*.md"
+  - ".copilot/skills/**/*.mdc"
+  - ".copilot/rules/**/*.md"
+  - ".copilot/rules/**/*.mdc"
+  - ".copilot/agents/**/*.md"
+  - ".copilot/agents/**/*.mdc"
 ---
 
 ```yaml
@@ -19,14 +19,14 @@ definitions:
       - "AI directives"
       - "AI directive files"
   ai-directive-files:
-    description: "Markdown files (.md, .mdc) located under skills/, rules/, or agents/ directories that contain AI directives"
+    description: "Markdown files (.md, .mdc) located under .copilot/skills/, .copilot/rules/, or .copilot/agents/ directories that contain AI directives"
     file-extensions:
       - ".md"
       - ".mdc"
     directory-locations:
-      - "skills/"
-      - "rules/"
-      - "agents/"
+      - ".copilot/skills/"
+      - ".copilot/rules/"
+      - ".copilot/agents/"
 
 rules:
   format:
