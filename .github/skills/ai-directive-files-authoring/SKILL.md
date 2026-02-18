@@ -1,14 +1,11 @@
 ---
-name: "meta-skill.ai-directive-files-authoring"
+name: "ai-directive-files-authoring"
 description: "Skill for authoring AI directive files; defines mandatory standards, norms, and format specifications that all AI directive files must conform to"
 version: "1.0.0"
 globs:
-  - ".copilot/skills/**/*.md"
-  - ".copilot/skills/**/*.mdc"
-  - ".copilot/rules/**/*.md"
-  - ".copilot/rules/**/*.mdc"
-  - ".copilot/agents/**/*.md"
-  - ".copilot/agents/**/*.mdc"
+  - ".github/skills/**/SKILL.md"
+  - ".github/skills/**/*.md"
+  - ".github/skills/**/*.mdc"
 ---
 
 ```yaml
@@ -19,14 +16,12 @@ definitions:
       - "AI directives"
       - "AI directive files"
   ai-directive-files:
-    description: "Markdown files (.md, .mdc) located under .copilot/skills/, .copilot/rules/, or .copilot/agents/ directories that contain AI directives"
+    description: "Markdown files (.md, .mdc) located under .github/skills/ directories that contain AI directives"
     file-extensions:
       - ".md"
       - ".mdc"
     directory-locations:
-      - ".copilot/skills/"
-      - ".copilot/rules/"
-      - ".copilot/agents/"
+      - ".github/skills/"
 
 rules:
   format:
@@ -73,5 +68,5 @@ verification:
   self-validation:
     description: "This AI directive file MUST pass all verification methods defined herein"
     meta-circular: true
-    assertion: "The file meta-skill.ai-directive-files-authoring.md is itself an AI directive file and MUST strictly conform to every rule it defines"
+    assertion: "The file SKILL.md is itself an AI directive file and MUST strictly conform to every rule it defines"
 ```
