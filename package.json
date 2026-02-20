@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.30.1+sha512.3590e550d5384caa39bd5c7c739f72270234b2f6059e13018f975c313b1eb9fefcc09714048765d4d9efe961382c312e624572c0420762bdc5d5940cdf9be73a",
+  "engines": {
+    "node": ">=24 <25",
+    "pnpm": ">=10"
+  },
+  "scripts": {
+    "check:format": "prettier --check .",
+    "check:all": "concurrently -n \"format\" \"pnpm run check:format\" && echo All checks passed!",
+    "fix:format": "prettier --write .",
+    "fix:all": "pnpm run fix:format",
+    "all": "pnpm run fix:all && pnpm run check:all",
+    "upgrade:pm": "corepack use pnpm@latest",
+    "upgrade:deps": "pnpm dlx npm-check-updates -u -p pnpm --peer --enginesNode && pnpm install",
+    "upgrade:all": "pnpm run upgrade:pm && pnpm run upgrade:deps",
+    "all:upgrade": "pnpm run upgrade:all && pnpm run all",
+    "reinstall": "pnpm dlx rimraf node_modules pnpm-lock.yaml && pnpm install",
+    "all:full-upgrade": "pnpm run reinstall && pnpm run all:upgrade"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "prettier": "^3.8.1"
+  }
+}
