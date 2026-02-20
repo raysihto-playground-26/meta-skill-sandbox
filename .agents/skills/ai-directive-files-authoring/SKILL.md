@@ -1,11 +1,8 @@
 ---
 name: "ai-directive-files-authoring"
-description: "Skill for authoring AI directive files; defines mandatory standards, norms, and format specifications that all AI directive files must conform to"
-version: "1.0.0"
+description: "Defines mandatory format for AI directive files (frontmatter + single YAML block, no prose). Apply when creating or editing any SKILL.md or .md under .agents/skills/, or any .*/skills/*/ path; or when the user creates, writes, or authors a new skill in this repository. All skill files in this repo must conform to this format."
 globs:
-  - ".github/skills/**/SKILL.md"
-  - ".github/skills/**/*.md"
-  - ".github/skills/**/*.mdc"
+  - ".*/skills/*/*.md"
 ---
 
 ```yaml
@@ -16,12 +13,11 @@ definitions:
       - "AI directives"
       - "AI directive files"
   ai-directive-files:
-    description: "Markdown files (.md, .mdc) located under .github/skills/ directories that contain AI directives"
+    description: "Markdown files (.md) located under .*/skills/ directories that contain AI directives"
     file-extensions:
       - ".md"
-      - ".mdc"
     directory-locations:
-      - ".github/skills/"
+      - ".*/skills/"
 
 rules:
   format:
@@ -68,5 +64,5 @@ verification:
   self-validation:
     description: "This AI directive file MUST pass all verification methods defined herein"
     meta-circular: true
-    assertion: "The file .github/skills/ai-directive-files-authoring/SKILL.md is itself an AI directive file and MUST strictly conform to every rule it defines"
+    assertion: "The file .*/skills/ai-directive-files-authoring/SKILL.md is itself an AI directive file and MUST strictly conform to every rule it defines"
 ```
