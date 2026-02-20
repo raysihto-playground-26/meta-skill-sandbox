@@ -1,16 +1,16 @@
-name: Pre-merge Checks
+name: Integration Readiness
 
 on:
   pull_request:
   workflow_dispatch:
 
 concurrency:
-  group: "pre-merge-checks-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || format('br-{0}', github.ref_name) }}"
+  group: "integration-readiness-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || format('br-{0}', github.ref_name) }}"
   cancel-in-progress: true
 
 jobs:
-  pre-merge-checks:
-    name: Pre-merge Checks
+  standard-checks:
+    name: Standard Checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -25,10 +25,7 @@ jobs:
           cache-dependency-path: "pnpm-lock.yaml"
 
       - name: Install dependencies
-        run: |
-          set -euo pipefail
-          pnpm install --frozen-lockfile
-          pnpm store prune
+        run: pnpm install --frozen-lockfile && pnpm store prune
 
       - name: Check formatting (Including non-source files)
         run: pnpm run check:format
