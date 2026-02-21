@@ -2,8 +2,9 @@
 name: "meta-skill.ai-directive-files-authoring"
 description: >
   Mandatory format and authoring rules for AI directive files (frontmatter, single YAML block, no prose).
-  Apply when creating or editing any SKILL.md or .md under .agents/skills/ or .*/skills/*/; or when the user creates, writes, or authors a new skill.
-  All skill files in this repository MUST conform to this format.
+  Apply when creating or editing any SKILL.md or .md under .agents/skills/ or .*/skills/*/;
+  or when the user creates, writes, or authors a new skill.
+  All AI directive files in this repository MUST conform to this format.
 ---
 
 ```yaml
@@ -15,7 +16,7 @@ interpretation:
   closed_world: "Only rules and definitions in this file are in force; no implicit import of other directive files unless explicitly referenced by id or link."
   constraints: "Rules with conditions other than 'always' apply only when those conditions match; exceptions subtract from applicability."
   error_handling: "Parse or structure errors invalidate the directive until corrected; verification methods define validity."
-  priority: "Each rule has layer (L0–L4) and priority (numeric); higher layer precedence and higher number win per precedence_and_conflict."
+  priority: "Each rule has layer (L0–L4) and priority (numeric); L0 has highest precedence, and within the same layer, higher priority number wins. See precedence_and_conflict for details."
 
 precedence_and_conflict:
   layer_order: ["L0", "L1", "L2", "L3", "L4"]
@@ -54,10 +55,10 @@ prohibitions:
     - id: "no-prose"
       layer: L0
       priority: 100
-      statement: "No narrative text, prose, or non-YAML content is permitted outside the frontmatter and the single fenced YAML code block."
+      statement: "MUST NOT include narrative text, prose, or non-YAML content outside the frontmatter and the single fenced YAML code block."
       conditions: ["always"]
       exceptions: ["none"]
-      verification: "No-prose-validation asserts remainder after removing frontmatter and fenced block is exclusively whitespace."
+      verification: "no-prose-validation asserts remainder after removing frontmatter and fenced block is exclusively whitespace."
     - id: "no-invent"
       layer: L0
       priority: 100
@@ -116,21 +117,21 @@ format_obligations:
     statement: "Every AI directive file MUST begin with a YAML frontmatter block enclosed by triple-dash delimiters."
     conditions: ["always"]
     exceptions: ["none"]
-    verification: "Structure-validation asserts file starts with triple-dash line and frontmatter between first and second triple-dash."
+    verification: "structure-validation asserts file starts with triple-dash line and frontmatter between first and second triple-dash."
   - id: "single-yaml-block"
     layer: L0
     priority: 100
     statement: "Every AI directive file MUST contain exactly one fenced YAML code block after the frontmatter."
     conditions: ["always"]
     exceptions: ["none"]
-    verification: "Structure-validation asserts exactly one fenced YAML code block in the remainder after frontmatter."
+    verification: "structure-validation asserts exactly one fenced YAML code block in the remainder after frontmatter."
   - id: "whitespace-only-separators"
     layer: L0
     priority: 100
     statement: "Only whitespace (newlines, spaces) MUST appear between the frontmatter closing delimiter and the fenced YAML code block opening delimiter."
     conditions: ["always"]
     exceptions: ["none"]
-    verification: "Structure-validation confirms no non-whitespace content between frontmatter closing delimiter and code fence opening."
+    verification: "structure-validation confirms no non-whitespace content between frontmatter closing delimiter and code fence opening."
 
 content_obligations:
   - id: "declarative-deterministic-definitional"
@@ -153,7 +154,7 @@ content_obligations:
     statement: "All YAML content MUST be parseable by any standard-compliant YAML parser without errors."
     conditions: ["always"]
     exceptions: ["none"]
-    verification: "Yaml-parse-validation parses frontmatter and fenced block with standard YAML parser; both succeed."
+    verification: "yaml-parse-validation parses frontmatter and fenced block with standard YAML parser; both succeed."
 
 authoring_obligations:
   - id: "design-assume-probabilistic"
@@ -219,27 +220,62 @@ authoring_obligations:
     conditions: ["creating AI directive file", "editing AI directive file"]
     exceptions: ["none"]
     verification: "Frontmatter has a description field; description contains trigger-condition phrasing (e.g. Apply when, Use when, or explicit enumeration of when to apply); human or pattern check."
-  - id: "frontmatter-description-agent-skills-spec"
+  - id: "frontmatter-description-present"
     layer: L2
     priority: 92
-    statement: "The frontmatter description MUST be present, non-empty, 1–1024 characters, and state what the skill does and when to use it (trigger conditions); it SHOULD include keywords that help agents identify relevant tasks."
+    statement: "The frontmatter description MUST be present."
     conditions: ["creating AI directive file", "editing AI directive file"]
     exceptions: ["none"]
-    verification: "Frontmatter has description; length between 1 and 1024; content states what and when; human or pattern check for keywords."
+    verification: "Frontmatter contains a description field."
+  - id: "frontmatter-description-non-empty"
+    layer: L2
+    priority: 92
+    statement: "The frontmatter description MUST be non-empty."
+    conditions: ["creating AI directive file", "editing AI directive file"]
+    exceptions: ["none"]
+    verification: "Description value is not null, not blank, and not only whitespace."
+  - id: "frontmatter-description-length-bounds"
+    layer: L2
+    priority: 92
+    statement: "The frontmatter description MUST be between 1 and 1024 characters in length."
+    conditions: ["creating AI directive file", "editing AI directive file"]
+    exceptions: ["none"]
+    verification: "Description length is >= 1 and <= 1024 characters."
+  - id: "frontmatter-description-states-what"
+    layer: L2
+    priority: 92
+    statement: "The frontmatter description MUST state what the skill does."
+    conditions: ["creating AI directive file", "editing AI directive file"]
+    exceptions: ["none"]
+    verification: "Description text explains the skill's purpose or behavior (what it does); human or pattern check."
+  - id: "frontmatter-description-keywords"
+    layer: L2
+    priority: 92
+    statement: "The frontmatter description SHOULD include keywords that help agents identify relevant tasks."
+    conditions: ["creating AI directive file", "editing AI directive file"]
+    exceptions: ["none"]
+    verification: "Description contains domain-relevant or task-relevant keywords; human or pattern check."
   - id: "frontmatter-description-folded-multiline"
     layer: L2
     priority: 88
-    statement: "When the frontmatter description is multiline, it MUST use YAML folded block scalar (>). Each line SHOULD be around 100 characters and at most about 120 as a guideline; break at meaning boundaries (e.g. sentence or clause end) where possible."
+    statement: "When the frontmatter description is multiline, it MUST use YAML folded block scalar (>)."
     conditions: ["creating AI directive file", "editing AI directive file"]
     exceptions: ["none"]
-    verification: "When description spans multiple source lines, it uses folded style (description: >); line length and break positions are human or tool check (guideline)."
+    verification: "When description spans multiple source lines, it uses folded style (description: >)."
+  - id: "frontmatter-description-folded-multiline-guidelines"
+    layer: L2
+    priority: 87
+    statement: "For multiline frontmatter descriptions, each line SHOULD be around 100 characters and at most about 120 as a guideline; line breaks SHOULD occur at meaning boundaries (for example, at the end of a sentence or clause) where possible."
+    conditions: ["creating AI directive file", "editing AI directive file"]
+    exceptions: ["none"]
+    verification: "When description spans multiple source lines, approximate line length and break positions are checked by a human or tool as guidelines."
   - id: "rule-record-schema"
     layer: L2
     priority: 100
-    statement: "Every normative rule MUST be a structured record with all of: id, layer, priority, statement, conditions, exceptions, verification; this full schema is mandatory so that priority computation, conflict resolution, and automated lint are possible."
+    statement: "Every normative rule MUST be represented as a structured record that conforms to the rule-record schema, defined as having exactly the following fields: id, layer, priority, statement, conditions, exceptions, verification; this single schema requirement is mandatory so that priority computation, conflict resolution, and automated lint are possible."
     conditions: ["creating AI directive file", "editing AI directive file"]
     exceptions: ["none"]
-    verification: "Every rule record contains id, layer, priority, statement, conditions, exceptions, verification."
+    verification: "Each rule record is checked for conformance to the rule-record schema by verifying that it has exactly the fields id, layer, priority, statement, conditions, exceptions, verification."
   - id: "define-precedence-order"
     layer: L2
     priority: 95
@@ -320,15 +356,47 @@ authoring_obligations:
   - id: "yaml-include-interpretation-semantics"
     layer: L2
     priority: 92
-    statement: "When the file contains a YAML block, the YAML MUST include interpretation semantics (e.g. unknown_keys, unspecified_behavior, precedence), closed-world statement, constraints, error_handling, and explicit priority on rules."
+    statement: "When the file contains a YAML block, the YAML MUST include interpretation semantics (e.g. unknown_keys, unspecified_behavior, precedence)."
     conditions:
       ["creating AI directive file that contains YAML block", "editing AI directive file that contains YAML block"]
     exceptions: ["none"]
-    verification: "YAML contains interpretation, closed_world, constraints, error_handling, priority."
+    verification: "YAML contains interpretation semantics keys (e.g. interpretation.unknown_keys, interpretation.unspecified_behavior, interpretation.precedence)."
+  - id: "yaml-include-closed-world-statement"
+    layer: L2
+    priority: 92
+    statement: "When the file contains a YAML block, the YAML MUST include a closed-world statement."
+    conditions:
+      ["creating AI directive file that contains YAML block", "editing AI directive file that contains YAML block"]
+    exceptions: ["none"]
+    verification: "YAML defines a closed_world statement or equivalent closed-world semantics."
+  - id: "yaml-include-constraints"
+    layer: L2
+    priority: 92
+    statement: "When the file contains a YAML block, the YAML MUST include constraints on rule applicability."
+    conditions:
+      ["creating AI directive file that contains YAML block", "editing AI directive file that contains YAML block"]
+    exceptions: ["none"]
+    verification: "YAML defines constraints that govern when rules apply."
+  - id: "yaml-include-error-handling"
+    layer: L2
+    priority: 92
+    statement: "When the file contains a YAML block, the YAML MUST include error_handling semantics."
+    conditions:
+      ["creating AI directive file that contains YAML block", "editing AI directive file that contains YAML block"]
+    exceptions: ["none"]
+    verification: "YAML defines error_handling semantics for parse or structure errors."
+  - id: "yaml-include-rule-priority"
+    layer: L2
+    priority: 92
+    statement: "When the file contains a YAML block, the YAML MUST define explicit priority on rules (e.g. layer and numeric priority)."
+    conditions:
+      ["creating AI directive file that contains YAML block", "editing AI directive file that contains YAML block"]
+    exceptions: ["none"]
+    verification: "YAML defines explicit priority attributes on rules (e.g. layer and numeric priority)."
   - id: "tier-separation-when-applicable"
     layer: L2
     priority: 85
-    statement: "When the scope is high-stakes OR multi-constraint OR long-form reasoning (e.g. high-trust review, complex spec analysis), tier separation MUST be applied: define per-tier scope, output format, and stopping condition; use bounded iteration (e.g. execute tier N, freeze, validate, then tier N+1; on inconsistency return to responsible tier); separate objective validation tiers from subjective improvement tiers."
+    statement: "When the scope is high-stakes OR multi-constraint OR long-form reasoning (e.g. high-trust review, complex spec analysis), tier separation MUST be applied."
     conditions:
       [
         "creating AI directive file and scope high-stakes",
@@ -339,7 +407,52 @@ authoring_obligations:
         "editing AI directive file and scope long-form reasoning",
       ]
     exceptions: ["none"]
-    verification: "When applicable, output defines per-tier scope, output format, stopping condition; bounded iteration and tier separation stated."
+    verification: "When applicable, output states that tier separation is applied."
+  - id: "tier-separation-define-scope-format-stopping"
+    layer: L2
+    priority: 85
+    statement: "When tier separation is applied, per-tier scope, output format, and stopping condition MUST be defined."
+    conditions:
+      [
+        "creating AI directive file and scope high-stakes",
+        "editing AI directive file and scope high-stakes",
+        "creating AI directive file and scope multi-constraint",
+        "editing AI directive file and scope multi-constraint",
+        "creating AI directive file and scope long-form reasoning",
+        "editing AI directive file and scope long-form reasoning",
+      ]
+    exceptions: ["none"]
+    verification: "When applicable, output defines per-tier scope, output format, and stopping condition."
+  - id: "tier-separation-bounded-iteration"
+    layer: L2
+    priority: 85
+    statement: "When tier separation is applied, bounded iteration MUST be used (e.g. execute tier N, freeze, validate, then tier N+1; on inconsistency return to responsible tier)."
+    conditions:
+      [
+        "creating AI directive file and scope high-stakes",
+        "editing AI directive file and scope high-stakes",
+        "creating AI directive file and scope multi-constraint",
+        "editing AI directive file and scope multi-constraint",
+        "creating AI directive file and scope long-form reasoning",
+        "editing AI directive file and scope long-form reasoning",
+      ]
+    exceptions: ["none"]
+    verification: "When applicable, output states bounded iteration (e.g. tier N, freeze, validate, tier N+1)."
+  - id: "tier-separation-objective-vs-subjective"
+    layer: L2
+    priority: 85
+    statement: "When tier separation is applied, objective validation tiers MUST be separated from subjective improvement tiers."
+    conditions:
+      [
+        "creating AI directive file and scope high-stakes",
+        "editing AI directive file and scope high-stakes",
+        "creating AI directive file and scope multi-constraint",
+        "editing AI directive file and scope multi-constraint",
+        "creating AI directive file and scope long-form reasoning",
+        "editing AI directive file and scope long-form reasoning",
+      ]
+    exceptions: ["none"]
+    verification: "When applicable, output separates objective validation tiers from subjective improvement tiers."
 
 verification:
   methods:
