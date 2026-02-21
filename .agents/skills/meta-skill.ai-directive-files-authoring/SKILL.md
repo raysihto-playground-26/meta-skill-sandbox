@@ -15,6 +15,7 @@ interpretation:
   precedence: "Governed by precedence_and_conflict; layer and priority on each rule determine conflict resolution."
   closed_world: "Only rules and definitions in this file are in force; no implicit import of other directive files unless explicitly referenced by id or link."
   constraints: "Rules with conditions other than 'always' apply only when those conditions match; exceptions subtract from applicability."
+  compound_conditions: "A condition entry may be a single trigger identifier or a compound of the form 'A and B' (literal space, and, space), meaning both A and B apply; such identifiers MUST be defined in this file or in definitions."
   error_handling: "Parse or structure errors invalidate the directive until corrected; verification methods define validity."
   priority: "Each rule has layer (L0–L4) and priority (numeric); L0 has highest precedence, and within the same layer, higher priority number wins. See precedence_and_conflict for details."
 
@@ -48,9 +49,25 @@ definitions:
     description: "Markdown files (.md) under .*/skills/ that contain AI directives"
     file-extensions: [".md"]
     directory-locations: [".*/skills/"]
+  runner:
+    description: "The execution environment, toolchain, or system component that runs the model and applies or verifies compliance with AI directive files."
+    canonical-terms: ["runner", "execution environment", "agent runner"]
+  tier-separation:
+    description: >
+      An execution discipline that structures work into discrete tiers (tier 0, tier 1, …) where
+      tier N MUST be fully executed, then frozen and validated (no further edits), before
+      beginning execution of tier N+1. When a rule requires tier separation, the agent MUST NOT
+      interleave content from multiple tiers and MUST treat each tier as a distinct, sequential
+      phase: execute tier N, freeze, validate, then proceed to tier N+1.
+  scope-high-stakes:
+    description: "Context or output where errors have serious consequences (e.g. safety, compliance, legal)."
+  scope-multi-constraint:
+    description: "Context where many rules or constraints must be satisfied together."
+  scope-long-form-reasoning:
+    description: "Context involving extended analysis, multi-step reasoning, or long-form generation."
 
 prohibitions:
-  override: "Every rule in this section overrides all rules in format_obligations, content_obligations, and authoring_obligations."
+  override: "Every rule in this section overrides all rules in format_obligations, content_obligations, and authoring_obligations. This section override takes precedence over layer and priority; a prohibition in this section overrides any rule in those sections regardless of layer or priority value."
   items:
     - id: "no-prose"
       layer: L0
@@ -307,10 +324,17 @@ authoring_obligations:
   - id: "explanatory-must-not-permitted"
     layer: L2
     priority: 92
-    statement: "Explanatory or descriptive use of the phrase MUST NOT (e.g. listing RFC keywords, describing conflict policy or verification scope) MUST be permitted and SHOULD be used for clarity."
+    statement: "When describing interpretation, semantics, or verification (as opposed to primary normative statement fields), descriptive use of the phrase MUST NOT is allowed and MUST NOT be treated as additional enforceable prohibitions."
     conditions: ["creating AI directive file", "editing AI directive file"]
     exceptions: ["none"]
-    verification: "Explanatory MUST NOT is not stripped; clarity of (MUST NOT) in statements is preserved."
+    verification: "Descriptive uses of MUST NOT in interpretation, semantics, or verification text are retained and are not modeled or enforced as separate prohibition rules."
+  - id: "explanatory-must-not-for-clarity"
+    layer: L2
+    priority: 92
+    statement: "Explanatory or descriptive use of the phrase MUST NOT (e.g. listing RFC keywords, describing conflict policy or verification scope) SHOULD be used for clarity where doing so improves understanding."
+    conditions: ["creating AI directive file", "editing AI directive file"]
+    exceptions: ["none"]
+    verification: "Guidance text, examples, and templates favor including explanatory uses of MUST NOT to improve clarity when ambiguity is possible."
   - id: "use-normative-keywords"
     layer: L2
     priority: 90
