@@ -6,20 +6,20 @@
 
 ### 対象プラン
 
-| ファイル名 | 略称 |
-| --- | --- |
-| `docs/.tmp/plan-r1.en.claude.md` | Claude プラン |
-| `docs/.tmp/plan-r1.en.codex.md` | Codex プラン |
+| ファイル名                        | 略称           |
+| --------------------------------- | -------------- |
+| `docs/.tmp/plan-r1.en.claude.md`  | Claude プラン  |
+| `docs/.tmp/plan-r1.en.codex.md`   | Codex プラン   |
 | `docs/.tmp/plan-r1.en.copilot.md` | Copilot プラン |
-| `docs/.tmp/plan-r1.en.cursor.md` | Cursor プラン |
-| `docs/.tmp/plan-r1.en.gpt.md` | GPT プラン |
+| `docs/.tmp/plan-r1.en.cursor.md`  | Cursor プラン  |
+| `docs/.tmp/plan-r1.en.gpt.md`     | GPT プラン     |
 
 ### 分析対象の課題（元レポートより）
 
-| ID | 課題 | 重要度 |
-| --- | --- | --- |
-| P1 | `interpretation.priority` と `conflict_policy.MUST_vs_MUST` の矛盾 — 同一レイヤー内で priority が異なる 2 つの MUST ルールが衝突した場合の挙動が不定 | Critical |
-| P2 | 条件識別子の語彙不在 + トークン形式不一致 — `compound_conditions` の MUST 要件をファイル自身が違反 | High |
+| ID  | 課題                                                                                                                                                 | 重要度   |
+| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| P1  | `interpretation.priority` と `conflict_policy.MUST_vs_MUST` の矛盾 — 同一レイヤー内で priority が異なる 2 つの MUST ルールが衝突した場合の挙動が不定 | Critical |
+| P2  | 条件識別子の語彙不在 + トークン形式不一致 — `compound_conditions` の MUST 要件をファイル自身が違反                                                   | High     |
 
 ---
 
@@ -39,13 +39,13 @@ GPT プランのみが、「AI directive files の具体的変更は今回のイ
 
 ### 2.2 分量と構成の比較
 
-| プラン | 概算行数 | セクション構成の深さ | 具体的 YAML テキスト提示 |
-| --- | --- | --- | --- |
-| Claude | 約 497 行 | 7 セクション（0–6）、サブセクション多数 | あり（全変更箇所） |
-| Codex | 約 150 行 | 7 セクション（1–7） | なし |
-| Copilot | 約 318 行 | 5 セクション（0–5）、サブセクション多数 | あり（全変更箇所） |
-| Cursor | 約 155 行 | 6 セクション（1–6） | なし |
-| GPT | 約 166 行 | 独自構成（Problem/Goals/Plan/Risks） | なし（ランナー仕様のみ） |
+| プラン  | 概算行数  | セクション構成の深さ                    | 具体的 YAML テキスト提示 |
+| ------- | --------- | --------------------------------------- | ------------------------ |
+| Claude  | 約 497 行 | 7 セクション（0–6）、サブセクション多数 | あり（全変更箇所）       |
+| Codex   | 約 150 行 | 7 セクション（1–7）                     | なし                     |
+| Copilot | 約 318 行 | 5 セクション（0–5）、サブセクション多数 | あり（全変更箇所）       |
+| Cursor  | 約 155 行 | 6 セクション（1–6）                     | なし                     |
+| GPT     | 約 166 行 | 独自構成（Problem/Goals/Plan/Risks）    | なし（ランナー仕様のみ） |
 
 ---
 
@@ -146,47 +146,47 @@ GPT プランのみが、「AI directive files の具体的変更は今回のイ
 
 差異があるのは「どこにそのロジックを実装するか」である:
 
-| プラン | 実装先 | `interpretation.priority` の更新 | `MUST_vs_MUST` の更新 |
-| --- | --- | --- | --- |
-| Claude | SKILL.md | 必須 | 必須 |
-| Codex | SKILL.md | 言及（具体文なし） | 言及（具体文なし） |
-| Copilot | SKILL.md | 任意（optional） | 必須 |
-| Cursor | SKILL.md | 必須 | 必須 |
-| GPT | ランナー側 | 変更なし | 変更なし |
+| プラン  | 実装先     | `interpretation.priority` の更新 | `MUST_vs_MUST` の更新 |
+| ------- | ---------- | -------------------------------- | --------------------- |
+| Claude  | SKILL.md   | 必須                             | 必須                  |
+| Codex   | SKILL.md   | 言及（具体文なし）               | 言及（具体文なし）    |
+| Copilot | SKILL.md   | 任意（optional）                 | 必須                  |
+| Cursor  | SKILL.md   | 必須                             | 必須                  |
+| GPT     | ランナー側 | 変更なし                         | 変更なし              |
 
 Copilot プランのみが `interpretation.priority` の更新を任意とし、GPT プランのみが SKILL.md を一切変更しない。
 
 ### 4.2 P2（条件識別子の語彙）に対するアプローチ比較
 
-| プラン | 正規化方向 | 識別子の大文字小文字 | 代替案の検討 | 追加施策 |
-| --- | --- | --- | --- | --- |
-| Claude | conditions → definitions（ハイフン区切り） | 全小文字 | なし | `interpretation.condition_identifiers` 追加 |
-| Codex | 方向は明示せず（統一を要求） | 指定なし | なし | 検証フェーズの独立化 |
-| Copilot | conditions → definitions（ハイフン区切り）推奨 | 大文字保持（AI, YAML） | あり（2 案を比較） | BNF 文法を将来検討 |
-| Cursor | 2 案を並記、推奨なし | 指定なし | あり（判断は保留） | なし |
-| GPT | ランナー側エイリアシング | 変更なし | なし | 予約トリガーリスト |
+| プラン  | 正規化方向                                     | 識別子の大文字小文字   | 代替案の検討       | 追加施策                                    |
+| ------- | ---------------------------------------------- | ---------------------- | ------------------ | ------------------------------------------- |
+| Claude  | conditions → definitions（ハイフン区切り）     | 全小文字               | なし               | `interpretation.condition_identifiers` 追加 |
+| Codex   | 方向は明示せず（統一を要求）                   | 指定なし               | なし               | 検証フェーズの独立化                        |
+| Copilot | conditions → definitions（ハイフン区切り）推奨 | 大文字保持（AI, YAML） | あり（2 案を比較） | BNF 文法を将来検討                          |
+| Cursor  | 2 案を並記、推奨なし                           | 指定なし               | あり（判断は保留） | なし                                        |
+| GPT     | ランナー側エイリアシング                       | 変更なし               | なし               | 予約トリガーリスト                          |
 
 識別子の命名規則における Claude（全小文字: `creating-ai-directive-file`）と Copilot（大文字保持: `creating-AI-directive-file`）の差異は、実装時に選択が必要となる。既存の definitions キーとの一貫性を重視するなら全小文字が優位だが、可読性を重視するなら大文字保持にも合理性がある。
 
 ### 4.3 実行計画の比較
 
-| プラン | ティア分離 | フェーズ数 | 検証の位置付け |
-| --- | --- | --- | --- |
-| Claude | あり（フェーズごとに Tier 0–3 / Tier 0–5） | 2 フェーズ | 各フェーズ内のティアとして組み込み |
-| Codex | あり（Phase 0–3 全体がティア的構成） | 4 フェーズ | Phase 3 として独立 |
-| Copilot | あり（フェーズごとに Tier 0–3） | 2 フェーズ | 各フェーズ内のティアとして組み込み |
-| Cursor | なし | 5 ステップの単純順序 | 成功基準として記述 |
-| GPT | なし（ただしセクション分割あり） | 5 セクション | テスト成果物として独立 |
+| プラン  | ティア分離                                 | フェーズ数           | 検証の位置付け                     |
+| ------- | ------------------------------------------ | -------------------- | ---------------------------------- |
+| Claude  | あり（フェーズごとに Tier 0–3 / Tier 0–5） | 2 フェーズ           | 各フェーズ内のティアとして組み込み |
+| Codex   | あり（Phase 0–3 全体がティア的構成）       | 4 フェーズ           | Phase 3 として独立                 |
+| Copilot | あり（フェーズごとに Tier 0–3）            | 2 フェーズ           | 各フェーズ内のティアとして組み込み |
+| Cursor  | なし                                       | 5 ステップの単純順序 | 成功基準として記述                 |
+| GPT     | なし（ただしセクション分割あり）           | 5 セクション         | テスト成果物として独立             |
 
 ### 4.4 独自性の要約
 
-| プラン | 最も際立つ独自性 |
-| --- | --- |
-| Claude | 影響ルール全件列挙 + `condition_identifiers` 再発防止規約の提案 |
-| Codex | ベースライン棚卸しフェーズの明示 + 検証整合性の独立フェーズ化 |
+| プラン  | 最も際立つ独自性                                                       |
+| ------- | ---------------------------------------------------------------------- |
+| Claude  | 影響ルール全件列挙 + `condition_identifiers` 再発防止規約の提案        |
+| Codex   | ベースライン棚卸しフェーズの明示 + 検証整合性の独立フェーズ化          |
 | Copilot | 代替案の明示的検討と推奨 + 大文字保持の識別子命名 + 広範な将来検討事項 |
-| Cursor | 最小限の構成による即座の実行可能性 |
-| GPT | ランナー側解決というアプローチ自体 + エイリアシング機構 + テスト駆動 |
+| Cursor  | 最小限の構成による即座の実行可能性                                     |
+| GPT     | ランナー側解決というアプローチ自体 + エイリアシング機構 + テスト駆動   |
 
 ---
 
@@ -208,12 +208,12 @@ Copilot プランのみが `interpretation.priority` の更新を任意とし、
 
 ## 付録: 参照ドキュメント一覧
 
-| ドキュメント | 役割 |
-| --- | --- |
+| ドキュメント                                                      | 役割                                                              |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------- |
 | `.agents/skills/meta-skill.ai-directive-files-authoring/SKILL.md` | 対象ファイル（AI ディレクティブファイルのオーサリングルール定義） |
-| `docs/.tmp/report_p1_p2_gap_analysis.md` | P1/P2 課題のギャップ分析レポート |
-| `docs/.tmp/plan-r1.en.claude.md` | Claude による是正プラン |
-| `docs/.tmp/plan-r1.en.codex.md` | Codex による是正プラン |
-| `docs/.tmp/plan-r1.en.copilot.md` | Copilot による是正プラン |
-| `docs/.tmp/plan-r1.en.cursor.md` | Cursor による是正プラン |
-| `docs/.tmp/plan-r1.en.gpt.md` | GPT による是正プラン |
+| `docs/.tmp/report_p1_p2_gap_analysis.md`                          | P1/P2 課題のギャップ分析レポート                                  |
+| `docs/.tmp/plan-r1.en.claude.md`                                  | Claude による是正プラン                                           |
+| `docs/.tmp/plan-r1.en.codex.md`                                   | Codex による是正プラン                                            |
+| `docs/.tmp/plan-r1.en.copilot.md`                                 | Copilot による是正プラン                                          |
+| `docs/.tmp/plan-r1.en.cursor.md`                                  | Cursor による是正プラン                                           |
+| `docs/.tmp/plan-r1.en.gpt.md`                                     | GPT による是正プラン                                              |
