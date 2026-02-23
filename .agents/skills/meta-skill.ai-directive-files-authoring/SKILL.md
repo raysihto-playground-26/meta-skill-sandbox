@@ -134,11 +134,13 @@ prohibitions:
       layer: L2
       priority: 92
       statement: "MUST NOT treat descriptive uses of the phrase 'MUST NOT' in interpretation,
-        semantics, definitions, or verification fields as additional enforceable prohibitions."
+        semantics, definitions, precedence_and_conflict,
+        failure_states_and_degradation, or verification fields as additional normative prohibitions."
       conditions: ["creating AI directive file", "editing AI directive file"]
       exceptions: ["none"]
-      verification: "No interpretation, semantics, definitions, or verification field treats
-        descriptive MUST NOT as an enforceable prohibition; human or pattern check."
+      verification: "No interpretation, semantics, definitions, precedence_and_conflict,
+        failure_states_and_degradation, or verification field treats
+        descriptive MUST NOT as a normative prohibition; human or pattern check."
 
 format_obligations:
   - id: "frontmatter-required"
@@ -338,12 +340,14 @@ authoring_obligations:
     layer: L2
     priority: 92
     statement: "Descriptive use of the phrase MUST NOT in interpretation, semantics,
-      definitions, or verification text (as opposed to primary normative statement fields)
+      definitions, precedence_and_conflict, failure_states_and_degradation,
+      or verification text (as opposed to primary normative statement fields)
       MUST be classified as explanatory; enforcement as a separate prohibition is governed
       by no-treat-explanatory-must-not-as-prohibition."
     conditions: ["creating AI directive file", "editing AI directive file"]
     exceptions: ["none"]
     verification: "Descriptive uses of MUST NOT in interpretation, semantics, definitions,
+      precedence_and_conflict, failure_states_and_degradation,
       or verification text are classified as explanatory and cross-reference
       no-treat-explanatory-must-not-as-prohibition for enforcement."
   - id: "explanatory-must-not-for-clarity"
