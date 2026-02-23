@@ -8,7 +8,7 @@ description: >
 metadata:
   globs:
     - ".agents/skills/meta-skill.ai-directive-files-authoring/SKILL.md"
-    - ".*/skills/*.md"
+    - ".*/skills/*/*.md"
 ---
 
 ```yaml
