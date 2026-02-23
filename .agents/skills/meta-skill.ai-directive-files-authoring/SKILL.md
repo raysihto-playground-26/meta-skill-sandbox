@@ -126,6 +126,15 @@ prohibitions:
       conditions: ["creating AI directive file", "editing AI directive file"]
       exceptions: ["none"]
       verification: "No reference to prior turn or persistent state; constraints stated in full."
+    - id: "no-treat-explanatory-must-not-as-prohibition"
+      layer: L2
+      priority: 92
+      statement: "MUST NOT treat descriptive uses of the phrase 'MUST NOT' in interpretation,
+        semantics, definitions, or verification fields as additional enforceable prohibitions."
+      conditions: ["creating AI directive file", "editing AI directive file"]
+      exceptions: ["none"]
+      verification: "No interpretation, semantics, definitions, or verification field treats
+        descriptive MUST NOT as an enforceable prohibition; human or pattern check."
 
 format_obligations:
   - id: "frontmatter-required"
@@ -324,10 +333,15 @@ authoring_obligations:
   - id: "explanatory-must-not-permitted"
     layer: L2
     priority: 92
-    statement: "When describing interpretation, semantics, or verification (as opposed to primary normative statement fields), descriptive use of the phrase MUST NOT is allowed and MUST NOT be treated as additional enforceable prohibitions."
+    statement: "Descriptive use of the phrase MUST NOT in interpretation, semantics,
+      definitions, or verification text (as opposed to primary normative statement fields)
+      MUST be classified as explanatory; enforcement as a separate prohibition is governed
+      by no-treat-explanatory-must-not-as-prohibition."
     conditions: ["creating AI directive file", "editing AI directive file"]
     exceptions: ["none"]
-    verification: "Descriptive uses of MUST NOT in interpretation, semantics, or verification text are retained and are not modeled or enforced as separate prohibition rules."
+    verification: "Descriptive uses of MUST NOT in interpretation, semantics, definitions,
+      or verification text are classified as explanatory and cross-reference
+      no-treat-explanatory-must-not-as-prohibition for enforcement."
   - id: "explanatory-must-not-for-clarity"
     layer: L2
     priority: 92
