@@ -15,7 +15,6 @@ Source documents:
 - docs/.tmp/plan-r1.en.cursor.md
 - docs/.tmp/plan-r1.en.gpt.md (adopted selectively; see Section 0.4)
 
-
 ## 0. Purpose, scope, and constraints
 
 ### 0.1 Purpose
@@ -23,10 +22,10 @@ Source documents:
 This document is an integrated (rev 2) remediation plan for the two issues
 identified in docs/.tmp/report_p1_p2_gap_analysis.md:
 
-| ID | Issue                                                    | Severity |
-|----|----------------------------------------------------------|----------|
-| P1 | interpretation.priority vs MUST_vs_MUST contradiction    | Critical |
-| P2 | Condition identifier vocabulary undefined + token form   | High     |
+| ID  | Issue                                                  | Severity |
+| --- | ------------------------------------------------------ | -------- |
+| P1  | interpretation.priority vs MUST_vs_MUST contradiction  | Critical |
+| P2  | Condition identifier vocabulary undefined + token form | High     |
 
 This plan synthesizes the best elements from five r1 plans, using the four
 specification-modification plans (Claude, Codex, Copilot, Cursor) as the
@@ -58,31 +57,31 @@ they do not contradict the specification-modification approach (see Section 0.4)
 
 Base plans (specification-modification approach):
 
-| Plan    | Key contribution adopted in this plan                      |
-|---------|------------------------------------------------------------|
-| Claude  | failure_states_and_degradation cross-reference for P1;     |
-|         | affected-rules inventory for P2; interaction risk with     |
-|         | plan.final.ascii.md                                        |
-| Codex   | Phase 0 baseline inventory as prerequisite; Phase 3        |
-|         | verification alignment as independent step; exit           |
-|         | conditions per phase                                       |
-| Copilot | Safety argument (undefined identifiers are safe to         |
-|         | rename); P1-B classified as clarity improvement            |
-| Cursor  | Concise stepwise structure; choice-point framing           |
+| Plan    | Key contribution adopted in this plan                  |
+| ------- | ------------------------------------------------------ |
+| Claude  | failure_states_and_degradation cross-reference for P1; |
+|         | affected-rules inventory for P2; interaction risk with |
+|         | plan.final.ascii.md                                    |
+| Codex   | Phase 0 baseline inventory as prerequisite; Phase 3    |
+|         | verification alignment as independent step; exit       |
+|         | conditions per phase                                   |
+| Copilot | Safety argument (undefined identifiers are safe to     |
+|         | rename); P1-B classified as clarity improvement        |
+| Cursor  | Concise stepwise structure; choice-point framing       |
 
 Selectively adopted from GPT (non-contradictory with specification-modification):
 
-| Element                  | Adopted as                                       |
-|--------------------------|--------------------------------------------------|
-| P1 verification fixtures | Mental-trace test scenarios for P1 acceptance    |
+| Element                  | Adopted as                                    |
+| ------------------------ | --------------------------------------------- |
+| P1 verification fixtures | Mental-trace test scenarios for P1 acceptance |
 
 Excluded from GPT:
 
-| Element                       | Reason for exclusion                             |
-|-------------------------------|--------------------------------------------------|
-| Runner/linter-only approach   | Misaligned with the requirement to fix SKILL.md  |
-| Alias resolution mechanism    | Contradicts the goal of exact-match identifiers  |
-| Reserved triggers concept     | Defers the problem instead of resolving it       |
+| Element                     | Reason for exclusion                            |
+| --------------------------- | ----------------------------------------------- |
+| Runner/linter-only approach | Misaligned with the requirement to fix SKILL.md |
+| Alias resolution mechanism  | Contradicts the goal of exact-match identifiers |
+| Reserved triggers concept   | Defers the problem instead of resolving it      |
 
 ### 0.5 Design priorities (from the task constraints)
 
@@ -134,18 +133,18 @@ have been attempted and failed to break the tie.
 Establish a deterministic three-step conflict resolution cascade:
 
 Step 1 -- Compare layers.
-  If layers differ: rule with higher-precedence layer (lower index in
-  layer_order) wins.
-  If layers are the same: proceed to Step 2.
+If layers differ: rule with higher-precedence layer (lower index in
+layer_order) wins.
+If layers are the same: proceed to Step 2.
 
 Step 2 -- Compare numeric priority.
-  If priorities differ: rule with higher numeric priority wins.
-  If priorities are equal: proceed to Step 3.
+If priorities differ: rule with higher numeric priority wins.
+If priorities are equal: proceed to Step 3.
 
 Step 3 -- Apply conflict_policy.
-  MUST vs MUST (same layer, same priority): halt or request clarification.
-  MUST vs SHOULD: MUST wins.
-  Prohibition vs other: prohibition wins.
+MUST vs MUST (same layer, same priority): halt or request clarification.
+MUST vs SHOULD: MUST wins.
+Prohibition vs other: prohibition wins.
 
 This cascade is deterministic and resolves every possible two-rule conflict.
 
@@ -198,20 +197,20 @@ These are mental-trace scenarios that an AI agent can evaluate by reading
 the post-fix file (adopted from GPT's test-case concept):
 
 Scenario 1 -- Different layers:
-  Rule X at L0/priority 50 conflicts with Rule Y at L2/priority 100.
-  Expected: Rule X wins (L0 has higher-precedence layer).
-  Verify: interpretation.priority and conflict_policy both support this.
+Rule X at L0/priority 50 conflicts with Rule Y at L2/priority 100.
+Expected: Rule X wins (L0 has higher-precedence layer).
+Verify: interpretation.priority and conflict_policy both support this.
 
 Scenario 2 -- Same layer, different priority:
-  Rule X at L2/priority 98 conflicts with Rule Y at L2/priority 95.
-  Expected: Rule X wins (higher numeric priority).
-  Verify: interpretation.priority says higher priority wins.
-  Verify: conflict_policy.MUST_vs_MUST does NOT trigger (priorities differ).
+Rule X at L2/priority 98 conflicts with Rule Y at L2/priority 95.
+Expected: Rule X wins (higher numeric priority).
+Verify: interpretation.priority says higher priority wins.
+Verify: conflict_policy.MUST_vs_MUST does NOT trigger (priorities differ).
 
 Scenario 3 -- Same layer, same priority:
-  Rule X at L2/priority 95 (MUST) conflicts with Rule Y at L2/priority 95 (MUST).
-  Expected: Halt or request clarification.
-  Verify: conflict_policy.MUST_vs_MUST triggers (layer and priority are equal).
+Rule X at L2/priority 95 (MUST) conflicts with Rule Y at L2/priority 95 (MUST).
+Expected: Halt or request clarification.
+Verify: conflict_policy.MUST_vs_MUST triggers (layer and priority are equal).
 
 All three scenarios MUST produce a single deterministic outcome with no
 contradiction between interpretation.priority and conflict_policy.
@@ -274,41 +273,41 @@ to each, minimizing the total number of changes.
 
 Group 1 -- Trigger identifiers (4 identifiers, approximately 38 rules):
 
-  Identifiers: creating AI directive file, editing AI directive file,
-  creating AI directive file that contains YAML block,
-  editing AI directive file that contains YAML block.
+Identifiers: creating AI directive file, editing AI directive file,
+creating AI directive file that contains YAML block,
+editing AI directive file that contains YAML block.
 
-  These appear in the conditions of approximately 38 rules. Rather than
-  rewriting all 38 rules' conditions, add definitions for these identifiers
-  using keys that exactly match the current conditions usage. This resolves
-  Problem A for these identifiers without changing any conditions arrays.
+These appear in the conditions of approximately 38 rules. Rather than
+rewriting all 38 rules' conditions, add definitions for these identifiers
+using keys that exactly match the current conditions usage. This resolves
+Problem A for these identifiers without changing any conditions arrays.
 
-  The definition keys will use the token form as currently written in
-  conditions (space-separated, matching the existing usage). This means
-  the YAML definition keys require quoting. While this produces a mixed
-  key style in the definitions section (some hyphenated, some quoted
-  space-separated), this is valid YAML and AI agents can interpret it
-  correctly. Per Design Priority 2, perfect stylistic consistency is not
-  required if intent is unambiguously interpretable.
+The definition keys will use the token form as currently written in
+conditions (space-separated, matching the existing usage). This means
+the YAML definition keys require quoting. While this produces a mixed
+key style in the definitions section (some hyphenated, some quoted
+space-separated), this is valid YAML and AI agents can interpret it
+correctly. Per Design Priority 2, perfect stylistic consistency is not
+required if intent is unambiguously interpretable.
 
-  Safety argument (from Copilot): since these identifiers are currently
-  undefined, no compliant runner can rely on their current form. Adding
-  definitions that match the existing form creates no regression.
+Safety argument (from Copilot): since these identifiers are currently
+undefined, no compliant runner can rely on their current form. Adding
+definitions that match the existing form creates no regression.
 
 Group 2 -- Scope identifiers (3 identifiers, 4 rules):
 
-  Identifiers: scope high-stakes, scope multi-constraint,
-  scope long-form reasoning.
+Identifiers: scope high-stakes, scope multi-constraint,
+scope long-form reasoning.
 
-  These appear in the conditions of exactly 4 rules (the tier-separation
-  rules). Definitions already exist using hyphenated keys (scope-high-stakes,
-  scope-multi-constraint, scope-long-form-reasoning). Rather than adding
-  duplicate definitions with space-separated keys, normalize the conditions
-  to match the existing definitions.
+These appear in the conditions of exactly 4 rules (the tier-separation
+rules). Definitions already exist using hyphenated keys (scope-high-stakes,
+scope-multi-constraint, scope-long-form-reasoning). Rather than adding
+duplicate definitions with space-separated keys, normalize the conditions
+to match the existing definitions.
 
-  This requires changing the scope identifier tokens in the conditions
-  arrays of 4 rules. Each of these 4 rules has 6 compound conditions
-  containing scope identifiers.
+This requires changing the scope identifier tokens in the conditions
+arrays of 4 rules. Each of these 4 rules has 6 compound conditions
+containing scope identifiers.
 
 ### 2.4 Required changes
 
@@ -320,6 +319,7 @@ The definition key for each entry MUST exactly match the token as it
 currently appears in conditions arrays.
 
 Identifiers to define:
+
 - creating AI directive file
 - editing AI directive file
 - creating AI directive file that contains YAML block
@@ -334,6 +334,7 @@ space-separated scope identifiers with the hyphen-separated form that
 matches the existing definitions keys.
 
 Mapping:
+
 - scope high-stakes -> scope-high-stakes
 - scope multi-constraint -> scope-multi-constraint
 - scope long-form reasoning -> scope-long-form-reasoning
@@ -345,6 +346,7 @@ identifier portion remains unchanged (it matches the new definitions
 from P2-A).
 
 Affected rules (4 total):
+
 - tier-separation-when-applicable
 - tier-separation-define-scope-format-stopping
 - tier-separation-bounded-iteration
@@ -352,16 +354,16 @@ Affected rules (4 total):
 
 ### 2.5 Change size evaluation
 
-| Change | Target                         | Rules affected | Entries changed        |
-|--------|--------------------------------|----------------|------------------------|
-| P2-A   | definitions section            | 0              | +4 new definitions     |
-| P2-B   | tier-separation rules          | 4              | 24 condition strings   |
-| Total  |                                | 4 rules        | 4 defs + 24 strings    |
+| Change | Target                | Rules affected | Entries changed      |
+| ------ | --------------------- | -------------- | -------------------- |
+| P2-A   | definitions section   | 0              | +4 new definitions   |
+| P2-B   | tier-separation rules | 4              | 24 condition strings |
+| Total  |                       | 4 rules        | 4 defs + 24 strings  |
 
 Comparison with full-normalization approach:
 
 | Approach              | Rules affected | Definition entries | Condition rewrites |
-|-----------------------|----------------|--------------------|--------------------|
+| --------------------- | -------------- | ------------------ | ------------------ |
 | Full normalization    | ~44            | +4                 | ~88                |
 | Minimum-change hybrid | 4              | +4                 | 24                 |
 
@@ -422,6 +424,7 @@ Before making any changes, build a complete inventory of all condition
 identifiers used across all rule records in the file.
 
 Steps:
+
 1. Extract all conditions values from all rule records.
 2. For compound conditions, split on " and " to extract individual tokens.
 3. For each token, check whether it exists as a key in definitions.
@@ -436,6 +439,7 @@ confirming the As-Is state described in the gap analysis report.
 Apply Changes P1-A and P1-B.
 
 Steps:
+
 1. Confirm the current text of interpretation.priority and
    conflict_policy.MUST_vs_MUST matches the As-Is state in the gap
    analysis report.
@@ -453,6 +457,7 @@ deterministic, non-contradictory outcomes.
 Apply Changes P2-A and P2-B.
 
 Steps:
+
 1. Add the 4 trigger identifier definitions (Change P2-A).
 2. Normalize the scope identifiers in the 4 tier-separation rules'
    conditions (Change P2-B).
@@ -468,6 +473,7 @@ After Phases 1 and 2, confirm that the file's own verification methods
 can detect regressions for P1 and P2.
 
 Steps:
+
 1. Review the verification section in SKILL.md.
 2. Confirm that condition-identifier resolution (P2) can be checked by
    the methods described in the file, or note if a verification method
@@ -508,32 +514,32 @@ verification methods are needed, they are documented as follow-up items.
 
 ## 6. Risks
 
-| Risk                                                | Mitigation                                   |
-|-----------------------------------------------------|----------------------------------------------|
-| P1 rewording introduces new ambiguity               | Verification scenarios (Section 1.5) trace   |
-|                                                     | three representative cases; AC1 and AC2      |
-|                                                     | require no contradiction.                    |
-| P2-B scope identifier normalization introduces      | Only 4 rules affected; each has exactly 6    |
-| typos in the 4 tier-separation rules                | compound conditions with a known pattern.    |
-| Mixed key styles in definitions (some hyphenated,   | Design Priority 2: perfect stylistic         |
-| some space-separated) may confuse future authors    | consistency is not required if AI agents can  |
-|                                                     | interpret intent correctly. A future          |
-|                                                     | normalization pass may unify key styles.      |
-| Interaction with plan.final.ascii.md changes        | No structural conflict (Section 3). P1/P2    |
-|                                                     | target different fields and sections.         |
-| Future rule additions may reintroduce undefined     | Phase 3 verification alignment ensures the   |
-| condition identifiers (from Codex)                  | file's verification methods can detect this.  |
+| Risk                                              | Mitigation                                   |
+| ------------------------------------------------- | -------------------------------------------- |
+| P1 rewording introduces new ambiguity             | Verification scenarios (Section 1.5) trace   |
+|                                                   | three representative cases; AC1 and AC2      |
+|                                                   | require no contradiction.                    |
+| P2-B scope identifier normalization introduces    | Only 4 rules affected; each has exactly 6    |
+| typos in the 4 tier-separation rules              | compound conditions with a known pattern.    |
+| Mixed key styles in definitions (some hyphenated, | Design Priority 2: perfect stylistic         |
+| some space-separated) may confuse future authors  | consistency is not required if AI agents can |
+|                                                   | interpret intent correctly. A future         |
+|                                                   | normalization pass may unify key styles.     |
+| Interaction with plan.final.ascii.md changes      | No structural conflict (Section 3). P1/P2    |
+|                                                   | target different fields and sections.        |
+| Future rule additions may reintroduce undefined   | Phase 3 verification alignment ensures the   |
+| condition identifiers (from Codex)                | file's verification methods can detect this. |
 
 ---
 
 ## 7. Summary of all proposed changes
 
-| Change | Target section(s)                    | Type        | Rules affected |
-|--------|--------------------------------------|-------------|----------------|
-| P1-A   | conflict_policy.MUST_vs_MUST         | Rewrite     | 0 (meta)       |
-| P1-B   | interpretation.priority              | Rewrite     | 0 (meta)       |
-| P2-A   | definitions                          | Add entries | 0              |
-| P2-B   | tier-separation rules' conditions    | Normalize   | 4              |
+| Change | Target section(s)                 | Type        | Rules affected |
+| ------ | --------------------------------- | ----------- | -------------- |
+| P1-A   | conflict_policy.MUST_vs_MUST      | Rewrite     | 0 (meta)       |
+| P1-B   | interpretation.priority           | Rewrite     | 0 (meta)       |
+| P2-A   | definitions                       | Add entries | 0              |
+| P2-B   | tier-separation rules' conditions | Normalize   | 4              |
 
 Total changes: 2 string value rewrites + 4 new definition entries +
 24 condition string normalizations across 4 rules.
