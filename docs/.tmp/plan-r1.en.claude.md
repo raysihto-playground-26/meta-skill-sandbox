@@ -26,7 +26,7 @@ This document defines a concrete remediation plan to resolve the two issues iden
 ### 0.2 Non-goals
 
 - Concrete file edits to AI directive files are out of scope. This document specifies
-  *what* to change, *why*, and the acceptance criteria, but does not perform the edits.
+  _what_ to change, _why_, and the acceptance criteria, but does not perform the edits.
 - Issues outside P1 and P2 (e.g., the MUST NOT-focused section issue addressed in
   `plan.final.ascii.md`) are not in scope.
 - Rollout to files other than the authoring skill is not in scope.
@@ -41,7 +41,7 @@ This document defines a concrete remediation plan to resolve the two issues iden
 - **condition identifier**: A string token used in a rule record's `conditions` array,
   which `interpretation.compound_conditions` requires to be defined in the file or in
   `definitions`.
-- **compound condition**: A condition entry of the form `"A and B"` (literal ` and `
+- **compound condition**: A condition entry of the form `"A and B"` (literal `and`
   separator), per `interpretation.compound_conditions`.
 
 ### 0.4 Constraints on this plan
@@ -64,17 +64,17 @@ This document defines a concrete remediation plan to resolve the two issues iden
 Two sections of the SKILL.md provide contradictory instructions to a runner when two MUST
 rules in the same layer have different numeric priority values:
 
-| Section                          | Instruction                                       |
-| -------------------------------- | ------------------------------------------------- |
-| `interpretation.priority`        | Higher numeric priority wins within the same layer |
-| `conflict_policy.MUST_vs_MUST`   | Halt or request clarification unconditionally      |
+| Section                        | Instruction                                        |
+| ------------------------------ | -------------------------------------------------- |
+| `interpretation.priority`      | Higher numeric priority wins within the same layer |
+| `conflict_policy.MUST_vs_MUST` | Halt or request clarification unconditionally      |
 
 A runner cannot follow both instructions simultaneously when, for example, rule A
 (L2, priority 98) and rule B (L2, priority 95) conflict: `interpretation.priority` says
 rule A wins, but `MUST_vs_MUST` says to halt.
 
 The root cause is that `MUST_vs_MUST` does not specify the precondition under which it
-applies, namely that it should apply only *after* layer and priority resolution have been
+applies, namely that it should apply only _after_ layer and priority resolution have been
 attempted and have failed to break the tie.
 
 ### 1.2 Proposed change
@@ -129,7 +129,7 @@ priority: "Each rule has layer (L0-L4) and priority (numeric); L0 has highest
 2. **Minimal change**: Only two string values are rewritten. No new keys, no structural
    changes, no rule records added or removed.
 3. **Backward compatibility**: The existing behavior for same-layer-same-priority
-   conflicts (halt) is preserved. The change only *narrows* the applicability of halting to
+   conflicts (halt) is preserved. The change only _narrows_ the applicability of halting to
    exclude cases already resolvable by priority.
 4. **Consistency with `failure_states_and_degradation`**: The `rule-conflict` failure
    state already says "Apply precedence_and_conflict; if unresolved MUST halt or request
@@ -157,17 +157,17 @@ Step 3: Apply conflict_policy.
 
 ### 1.5 Acceptance criteria for P1
 
-| ID     | Criterion                                                                    |
-| ------ | ---------------------------------------------------------------------------- |
-| P1-AC1 | `conflict_policy.MUST_vs_MUST` explicitly states it applies only when layer  |
-|        | and priority are equal.                                                      |
-| P1-AC2 | `interpretation.priority` references `conflict_policy` for the equal-        |
-|        | priority case.                                                               |
-| P1-AC3 | No logical contradiction exists between `interpretation.priority` and        |
-|        | `conflict_policy.MUST_vs_MUST` for any combination of layer and priority.    |
-| P1-AC4 | The YAML parses successfully with a standard-compliant YAML parser.          |
+| ID     | Criterion                                                                     |
+| ------ | ----------------------------------------------------------------------------- |
+| P1-AC1 | `conflict_policy.MUST_vs_MUST` explicitly states it applies only when layer   |
+|        | and priority are equal.                                                       |
+| P1-AC2 | `interpretation.priority` references `conflict_policy` for the equal-         |
+|        | priority case.                                                                |
+| P1-AC3 | No logical contradiction exists between `interpretation.priority` and         |
+|        | `conflict_policy.MUST_vs_MUST` for any combination of layer and priority.     |
+| P1-AC4 | The YAML parses successfully with a standard-compliant YAML parser.           |
 | P1-AC5 | The `failure_states_and_degradation.failure_states` entry for `rule-conflict` |
-|        | remains consistent with the updated conflict_policy.                         |
+|        | remains consistent with the updated conflict_policy.                          |
 
 ---
 
@@ -184,15 +184,15 @@ However, the file violates its own requirement in two ways:
 **Problem A -- Undefined identifiers**: The following identifiers are used in `conditions`
 arrays throughout the file but have no entry in `definitions`:
 
-| Identifier                                              | Usage context                 |
-| ------------------------------------------------------- | ----------------------------- |
-| `creating AI directive file`                            | Most rules' conditions        |
-| `editing AI directive file`                             | Most rules' conditions        |
-| `creating AI directive file that contains YAML block`   | yaml-include-* rules          |
-| `editing AI directive file that contains YAML block`    | yaml-include-* rules          |
-| `scope high-stakes`                                     | tier-separation rules         |
-| `scope multi-constraint`                                | tier-separation rules         |
-| `scope long-form reasoning`                             | tier-separation rules         |
+| Identifier                                            | Usage context          |
+| ----------------------------------------------------- | ---------------------- |
+| `creating AI directive file`                          | Most rules' conditions |
+| `editing AI directive file`                           | Most rules' conditions |
+| `creating AI directive file that contains YAML block` | yaml-include-\* rules  |
+| `editing AI directive file that contains YAML block`  | yaml-include-\* rules  |
+| `scope high-stakes`                                   | tier-separation rules  |
+| `scope multi-constraint`                              | tier-separation rules  |
+| `scope long-form reasoning`                           | tier-separation rules  |
 
 **Problem B -- Token form mismatch**: The scope identifiers in `definitions` use hyphen
 separation (e.g., `scope-high-stakes`), but the `conditions` arrays use space separation
@@ -273,20 +273,18 @@ conditions: ["creating AI directive file", "editing AI directive file"]
 conditions: ["creating-ai-directive-file", "editing-ai-directive-file"]
 ```
 
-**Current form** (used in yaml-include-* rules):
+**Current form** (used in yaml-include-\* rules):
 
 ```yaml
 conditions:
-  ["creating AI directive file that contains YAML block",
-   "editing AI directive file that contains YAML block"]
+  ["creating AI directive file that contains YAML block", "editing AI directive file that contains YAML block"]
 ```
 
 **Proposed form:**
 
 ```yaml
 conditions:
-  ["creating-ai-directive-file-that-contains-yaml-block",
-   "editing-ai-directive-file-that-contains-yaml-block"]
+  ["creating-ai-directive-file-that-contains-yaml-block", "editing-ai-directive-file-that-contains-yaml-block"]
 ```
 
 #### Change P2-D: Add a convention statement for identifier token form
@@ -309,7 +307,7 @@ condition_identifiers: "Condition identifiers in conditions arrays MUST use
    has a corresponding entry in `definitions`. The `compound_conditions` MUST requirement
    is satisfied.
 2. **Machine-verifiable**: A linter can extract all condition identifiers (splitting
-   compound conditions on ` and `), then check each token against `definitions` keys.
+   compound conditions on `and`), then check each token against `definitions` keys.
    The hyphen-separated canonical form guarantees exact string matching.
 3. **Minimal semantic change**: No rule's meaning changes. The identifiers are renamed
    to a canonical form, and descriptions are added, but the set of applicable conditions
@@ -382,12 +380,12 @@ The following is a complete list of rules that use condition identifiers requiri
 | P2-AC1 | Every identifier token used in any `conditions` array has a matching key in  |
 |        | `definitions`.                                                               |
 | P2-AC2 | All condition identifiers use hyphen-separated lowercase form.               |
-| P2-AC3 | All compound conditions (containing ` and `) decompose into tokens that each |
+| P2-AC3 | All compound conditions (containing `and`) decompose into tokens that each   |
 |        | have a matching key in `definitions`.                                        |
-| P2-AC4 | The `compound_conditions` MUST requirement is satisfied (no self-violation).  |
+| P2-AC4 | The `compound_conditions` MUST requirement is satisfied (no self-violation). |
 | P2-AC5 | No rule's applicability semantics are altered by the identifier rename.      |
 | P2-AC6 | The YAML parses successfully with a standard-compliant YAML parser.          |
-| P2-AC7 | A `condition_identifiers` convention statement exists in `interpretation`.    |
+| P2-AC7 | A `condition_identifiers` convention statement exists in `interpretation`.   |
 
 ---
 
@@ -407,26 +405,26 @@ iteration: execute the tier, freeze output, validate, then proceed.
 
 #### Phase 1: Fix P1 (Conflict Resolution Ambiguity)
 
-| Tier   | Scope                              | Output format       | Stopping condition                       |
-| ------ | ---------------------------------- | ------------------- | ---------------------------------------- |
-| Tier 0 | Confirm current text of the two    | Quoted current text  | Both sections identified and quoted      |
-|        | target fields in SKILL.md          |                     |                                          |
-| Tier 1 | Apply Changes P1-A and P1-B       | Updated YAML values | Both values rewritten per Section 1.2    |
-| Tier 2 | Objective validation               | Pass/fail checklist | All P1-AC* criteria pass                 |
-| Tier 3 | Subjective review                  | Human sign-off      | Wording preserves original intent        |
+| Tier   | Scope                           | Output format       | Stopping condition                    |
+| ------ | ------------------------------- | ------------------- | ------------------------------------- |
+| Tier 0 | Confirm current text of the two | Quoted current text | Both sections identified and quoted   |
+|        | target fields in SKILL.md       |                     |                                       |
+| Tier 1 | Apply Changes P1-A and P1-B     | Updated YAML values | Both values rewritten per Section 1.2 |
+| Tier 2 | Objective validation            | Pass/fail checklist | All P1-AC\* criteria pass             |
+| Tier 3 | Subjective review               | Human sign-off      | Wording preserves original intent     |
 
 #### Phase 2: Fix P2 (Condition Identifier Vocabulary)
 
-| Tier   | Scope                              | Output format       | Stopping condition                       |
-| ------ | ---------------------------------- | ------------------- | ---------------------------------------- |
-| Tier 0 | Inventory all condition identifiers| Table of identifiers| All identifiers catalogued               |
-|        | across all rule records            | and their status    |                                          |
-| Tier 1 | Apply Change P2-A (add definitions)| Updated definitions | All new entries added                    |
-| Tier 2 | Apply Changes P2-B and P2-C       | Updated conditions  | All conditions arrays normalized         |
-|        | (normalize conditions)             | arrays              |                                          |
-| Tier 3 | Apply Change P2-D (add convention)| Updated interpret.  | Convention statement added               |
-| Tier 4 | Objective validation               | Pass/fail checklist | All P2-AC* criteria pass                 |
-| Tier 5 | Subjective review                  | Human sign-off      | Semantics preserved; wording clear       |
+| Tier   | Scope                               | Output format        | Stopping condition                 |
+| ------ | ----------------------------------- | -------------------- | ---------------------------------- |
+| Tier 0 | Inventory all condition identifiers | Table of identifiers | All identifiers catalogued         |
+|        | across all rule records             | and their status     |                                    |
+| Tier 1 | Apply Change P2-A (add definitions) | Updated definitions  | All new entries added              |
+| Tier 2 | Apply Changes P2-B and P2-C         | Updated conditions   | All conditions arrays normalized   |
+|        | (normalize conditions)              | arrays               |                                    |
+| Tier 3 | Apply Change P2-D (add convention)  | Updated interpret.   | Convention statement added         |
+| Tier 4 | Objective validation                | Pass/fail checklist  | All P2-AC\* criteria pass          |
+| Tier 5 | Subjective review                   | Human sign-off       | Semantics preserved; wording clear |
 
 ### 3.3 Verification methods
 
@@ -435,11 +433,11 @@ The following verification steps should be performed after each phase:
 1. **YAML parse validation**: Parse both frontmatter and fenced YAML block with a
    standard YAML parser; both must succeed.
 2. **Structure validation**: Confirm the file retains the required structure (frontmatter
-   + single fenced YAML code block + whitespace-only separators).
+   - single fenced YAML code block + whitespace-only separators).
 3. **Rule-record schema check**: Confirm every rule record has exactly the fields `id`,
    `layer`, `priority`, `statement`, `conditions`, `exceptions`, `verification`.
 4. **Condition identifier resolution** (P2 only): Extract all `conditions` values, split
-   compound conditions on ` and `, and confirm every resulting token exists as a key in
+   compound conditions on `and`, and confirm every resulting token exists as a key in
    `definitions`.
 5. **Conflict resolution consistency** (P1 only): Trace the cascade (Section 1.4) for the
    example case (L2 priority 98 vs L2 priority 95) and confirm a single deterministic
@@ -449,35 +447,35 @@ The following verification steps should be performed after each phase:
 
 ## 4. Risk assessment
 
-| Risk                                             | Likelihood | Impact | Mitigation                               |
-| ------------------------------------------------ | ---------- | ------ | ---------------------------------------- |
-| P1 rewording introduces a new ambiguity          | Low        | High   | Acceptance criterion P1-AC3 requires     |
-|                                                  |            |        | no logical contradiction; cascade in     |
-|                                                  |            |        | Section 1.4 is fully enumerated.         |
-| P2 identifier rename breaks downstream tooling   | Low        | Medium | No known downstream consumers of         |
-|                                                  |            |        | condition identifier strings at present. |
-| P2 large number of condition changes introduces  | Medium     | Medium | Tier-separated execution with per-tier   |
-| typos or omissions                               |            |        | validation. Full inventory in 2.4.       |
-| Interaction with plan.final.ascii.md changes     | Low        | Low    | P1/P2 do not touch prohibitions or       |
-|                                                  |            |        | authoring_obligations statement fields   |
-|                                                  |            |        | targeted by that plan (except for the    |
-|                                                  |            |        | conditions arrays, which that plan does  |
-|                                                  |            |        | not modify).                             |
+| Risk                                            | Likelihood | Impact | Mitigation                               |
+| ----------------------------------------------- | ---------- | ------ | ---------------------------------------- |
+| P1 rewording introduces a new ambiguity         | Low        | High   | Acceptance criterion P1-AC3 requires     |
+|                                                 |            |        | no logical contradiction; cascade in     |
+|                                                 |            |        | Section 1.4 is fully enumerated.         |
+| P2 identifier rename breaks downstream tooling  | Low        | Medium | No known downstream consumers of         |
+|                                                 |            |        | condition identifier strings at present. |
+| P2 large number of condition changes introduces | Medium     | Medium | Tier-separated execution with per-tier   |
+| typos or omissions                              |            |        | validation. Full inventory in 2.4.       |
+| Interaction with plan.final.ascii.md changes    | Low        | Low    | P1/P2 do not touch prohibitions or       |
+|                                                 |            |        | authoring_obligations statement fields   |
+|                                                 |            |        | targeted by that plan (except for the    |
+|                                                 |            |        | conditions arrays, which that plan does  |
+|                                                 |            |        | not modify).                             |
 
 ---
 
 ## 5. Summary of all proposed changes
 
-| Change ID | Target section(s)                   | Type          | Description                              |
-| --------- | ----------------------------------- | ------------- | ---------------------------------------- |
-| P1-A      | precedence_and_conflict             | Rewrite value | Narrow MUST_vs_MUST to same-layer-same-  |
-|           | .conflict_policy.MUST_vs_MUST       |               | priority case only; enumerate all cases  |
-| P1-B      | interpretation.priority             | Rewrite value | Add forward reference to conflict_policy |
-|           |                                     |               | for equal-priority case                  |
-| P2-A      | definitions                         | Add entries   | Define 4 new condition identifiers       |
-| P2-B      | tier-separation rules' conditions   | Rewrite value | Normalize scope tokens to hyphen form    |
-| P2-C      | All other rules' conditions         | Rewrite value | Normalize trigger tokens to hyphen form  |
-| P2-D      | interpretation                      | Add key       | Declare canonical token form convention  |
+| Change ID | Target section(s)                 | Type          | Description                              |
+| --------- | --------------------------------- | ------------- | ---------------------------------------- |
+| P1-A      | precedence_and_conflict           | Rewrite value | Narrow MUST_vs_MUST to same-layer-same-  |
+|           | .conflict_policy.MUST_vs_MUST     |               | priority case only; enumerate all cases  |
+| P1-B      | interpretation.priority           | Rewrite value | Add forward reference to conflict_policy |
+|           |                                   |               | for equal-priority case                  |
+| P2-A      | definitions                       | Add entries   | Define 4 new condition identifiers       |
+| P2-B      | tier-separation rules' conditions | Rewrite value | Normalize scope tokens to hyphen form    |
+| P2-C      | All other rules' conditions       | Rewrite value | Normalize trigger tokens to hyphen form  |
+| P2-D      | interpretation                    | Add key       | Declare canonical token form convention  |
 
 Total: 2 value rewrites (P1), 4 new definition entries + ~44 conditions array rewrites +
 1 new interpretation key (P2).
@@ -487,7 +485,7 @@ Total: 2 value rewrites (P1), 4 new definition entries + ~44 conditions array re
 ## 6. Open items and future work
 
 1. **Linter for condition identifier resolution**: Implement a tool that extracts all
-   `conditions` values, splits on ` and `, and checks each token against `definitions`
+   `conditions` values, splits on `and`, and checks each token against `definitions`
    keys. This would automate P2-AC1 through P2-AC4.
 2. **Linter for conflict resolution consistency**: Implement a tool that verifies no pair
    of rules at the same layer and priority have conflicting MUST statements without an

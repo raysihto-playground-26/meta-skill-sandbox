@@ -9,10 +9,10 @@ Path note: `.cursor/skills/`, `.github/skills/`, `.claude/skills/`, `.agent/skil
 
 This document is a remediation plan for the two issues identified in `docs/.tmp/report_p1_p2_gap_analysis.md`:
 
-| ID  | Issue                                                       | Severity |
-| --- | ----------------------------------------------------------- | -------- |
-| P1  | `interpretation.priority` and `MUST_vs_MUST` contradiction  | Critical |
-| P2  | Condition identifier vocabulary undefined + token mismatch  | High     |
+| ID  | Issue                                                      | Severity |
+| --- | ---------------------------------------------------------- | -------- |
+| P1  | `interpretation.priority` and `MUST_vs_MUST` contradiction | Critical |
+| P2  | Condition identifier vocabulary undefined + token mismatch | High     |
 
 The plan describes the changes required to bring the authoring skill into internal consistency, without changing its intent or the set of normative rules it enforces.
 
@@ -126,10 +126,10 @@ Design points:
 
 ### 1.4 Change size evaluation
 
-| Change | Target                                                          | Scope of impact                        |
-| ------ | --------------------------------------------------------------- | -------------------------------------- |
-| P1-A   | `precedence_and_conflict.conflict_policy.MUST_vs_MUST`          | rewrite 1 string value                 |
-| P1-B   | `interpretation.priority`                                       | rewrite 1 string value (optional)      |
+| Change | Target                                                 | Scope of impact                   |
+| ------ | ------------------------------------------------------ | --------------------------------- |
+| P1-A   | `precedence_and_conflict.conflict_policy.MUST_vs_MUST` | rewrite 1 string value            |
+| P1-B   | `interpretation.priority`                              | rewrite 1 string value (optional) |
 
 ### 1.5 Verification criteria
 
@@ -156,15 +156,15 @@ Two sub-problems exist:
 
 The following condition identifiers are used across rule records but are not defined in `definitions`:
 
-| Identifier                                                | Usage                                     |
-| --------------------------------------------------------- | ----------------------------------------- |
-| `creating AI directive file`                              | conditions of most authoring rules        |
-| `editing AI directive file`                               | conditions of most authoring rules        |
-| `creating AI directive file that contains YAML block`     | conditions of yaml-include-* rules        |
-| `editing AI directive file that contains YAML block`      | conditions of yaml-include-* rules        |
-| `scope high-stakes`                                       | conditions of tier-separation-* rules     |
-| `scope multi-constraint`                                  | conditions of tier-separation-* rules     |
-| `scope long-form reasoning`                               | conditions of tier-separation-* rules     |
+| Identifier                                            | Usage                                  |
+| ----------------------------------------------------- | -------------------------------------- |
+| `creating AI directive file`                          | conditions of most authoring rules     |
+| `editing AI directive file`                           | conditions of most authoring rules     |
+| `creating AI directive file that contains YAML block` | conditions of yaml-include-\* rules    |
+| `editing AI directive file that contains YAML block`  | conditions of yaml-include-\* rules    |
+| `scope high-stakes`                                   | conditions of tier-separation-\* rules |
+| `scope multi-constraint`                              | conditions of tier-separation-\* rules |
+| `scope long-form reasoning`                           | conditions of tier-separation-\* rules |
 
 #### Problem B: token format mismatch
 
@@ -208,13 +208,14 @@ Design points:
 
 Replace all occurrences of space-separated scope identifiers in `conditions` arrays with their hyphen-delimited equivalents from `definitions`:
 
-| Current (in conditions)      | Normalized (matching definitions key) |
-| ---------------------------- | ------------------------------------- |
-| `scope high-stakes`          | `scope-high-stakes`                   |
-| `scope multi-constraint`     | `scope-multi-constraint`              |
-| `scope long-form reasoning`  | `scope-long-form-reasoning`           |
+| Current (in conditions)     | Normalized (matching definitions key) |
+| --------------------------- | ------------------------------------- |
+| `scope high-stakes`         | `scope-high-stakes`                   |
+| `scope multi-constraint`    | `scope-multi-constraint`              |
+| `scope long-form reasoning` | `scope-long-form-reasoning`           |
 
 This affects the `conditions` of the following rules:
+
 - `tier-separation-when-applicable`
 - `tier-separation-define-scope-format-stopping`
 - `tier-separation-bounded-iteration`
@@ -224,20 +225,21 @@ This affects the `conditions` of the following rules:
 
 Replace all occurrences of space-separated trigger identifiers in `conditions` arrays with the hyphen-delimited keys added in Change P2-A:
 
-| Current (in conditions)                                   | Normalized                                                |
-| --------------------------------------------------------- | --------------------------------------------------------- |
-| `creating AI directive file`                              | `creating-AI-directive-file`                              |
-| `editing AI directive file`                               | `editing-AI-directive-file`                               |
-| `creating AI directive file that contains YAML block`     | `creating-AI-directive-file-that-contains-YAML-block`     |
-| `editing AI directive file that contains YAML block`      | `editing-AI-directive-file-that-contains-YAML-block`      |
+| Current (in conditions)                               | Normalized                                            |
+| ----------------------------------------------------- | ----------------------------------------------------- |
+| `creating AI directive file`                          | `creating-AI-directive-file`                          |
+| `editing AI directive file`                           | `editing-AI-directive-file`                           |
+| `creating AI directive file that contains YAML block` | `creating-AI-directive-file-that-contains-YAML-block` |
+| `editing AI directive file that contains YAML block`  | `editing-AI-directive-file-that-contains-YAML-block`  |
 
-This affects the `conditions` of all rules in `prohibitions`, `authoring_obligations`, and the yaml-include-* / tier-separation-* rules.
+This affects the `conditions` of all rules in `prohibitions`, `authoring_obligations`, and the yaml-include-_ / tier-separation-_ rules.
 
 Note: compound conditions (e.g., `"creating AI directive file and scope high-stakes"`) would become `"creating-AI-directive-file and scope-high-stakes"`, preserving the `" and "` separator as specified by `interpretation.compound_conditions`.
 
 #### Approach 2 (alternative): add missing definitions using space-delimited keys + normalize definitions keys to match conditions
 
 Instead of normalizing the conditions, normalize the definitions keys to use spaces. This would mean:
+
 - Rename `scope-high-stakes` to `scope high-stakes` in definitions.
 - Add new definition entries with space-delimited keys (e.g., `creating AI directive file`).
 
@@ -245,11 +247,11 @@ This approach has a downside: YAML keys with spaces require quoting, which is le
 
 ### 2.4 Change size evaluation
 
-| Change | Target                                 | Scope of impact                                              |
-| ------ | -------------------------------------- | ------------------------------------------------------------ |
-| P2-A   | `definitions` section                  | add 4 new definition entries                                 |
-| P2-B   | `conditions` in tier-separation rules  | rewrite scope identifiers in 4 rules (24 condition entries)  |
-| P2-C   | `conditions` across most rules         | rewrite trigger identifiers across ~30 rules                 |
+| Change | Target                                | Scope of impact                                             |
+| ------ | ------------------------------------- | ----------------------------------------------------------- |
+| P2-A   | `definitions` section                 | add 4 new definition entries                                |
+| P2-B   | `conditions` in tier-separation rules | rewrite scope identifiers in 4 rules (24 condition entries) |
+| P2-C   | `conditions` across most rules        | rewrite trigger identifiers across ~30 rules                |
 
 ### 2.5 Verification criteria
 
@@ -265,21 +267,21 @@ This approach has a downside: YAML keys with spaces require quoting, which is le
 
 Both P1 and P2 changes can be applied independently. However, since P2-C touches the `conditions` arrays of most rules (including those also affected by P2-B), it is recommended to apply P2 changes together as a single phase.
 
-| Phase   | Changes      | Description                                      | Dependency       |
-| ------- | ------------ | ------------------------------------------------ | ---------------- |
-| Phase 1 | P1-A, P1-B   | Resolve conflict resolution ambiguity            | None             |
-| Phase 2 | P2-A, P2-B, P2-C | Resolve condition identifier vocabulary issues | None             |
+| Phase   | Changes          | Description                                    | Dependency |
+| ------- | ---------------- | ---------------------------------------------- | ---------- |
+| Phase 1 | P1-A, P1-B       | Resolve conflict resolution ambiguity          | None       |
+| Phase 2 | P2-A, P2-B, P2-C | Resolve condition identifier vocabulary issues | None       |
 
 ### 3.2 Tier separation per phase
 
 Each phase follows a tiered execution:
 
-| Tier                                  | Content                                                                                                  |
-| ------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| **Tier 0 (pre-check)**               | Confirm the current state matches the As-Is described in the gap analysis report.                        |
-| **Tier 1 (apply changes)**           | Apply the changes described in this plan to SKILL.md.                                                    |
-| **Tier 2 (objective verification)**  | Run YAML parse validation, verify conflict resolution is deterministic (P1), verify all identifiers resolve to definitions (P2). |
-| **Tier 3 (subjective quality check)**| Human review to confirm semantic intent is preserved and wording is clear.                               |
+| Tier                                  | Content                                                                                                                          |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| **Tier 0 (pre-check)**                | Confirm the current state matches the As-Is described in the gap analysis report.                                                |
+| **Tier 1 (apply changes)**            | Apply the changes described in this plan to SKILL.md.                                                                            |
+| **Tier 2 (objective verification)**   | Run YAML parse validation, verify conflict resolution is deterministic (P1), verify all identifiers resolve to definitions (P2). |
+| **Tier 3 (subjective quality check)** | Human review to confirm semantic intent is preserved and wording is clear.                                                       |
 
 ### 3.3 Acceptance criteria
 
@@ -300,12 +302,12 @@ Each phase follows a tiered execution:
 
 ## 4. Risks and considerations
 
-| Risk                                                        | Mitigation                                                                                          |
-| ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| P2-C touches ~30 rules; risk of introducing typos           | Mechanical find-and-replace; verify by extracting all condition identifiers and matching to definitions |
-| Hyphen-delimited trigger identifiers (P2-C) may reduce human readability | Consistent with existing definitions style; readability trade-off is acceptable for machine-verifiability |
-| P1-A expands the `MUST_vs_MUST` string; risk of introducing new ambiguity | The three-step procedure is explicit and exhaustive; verification criteria check determinism         |
-| Changes to `conditions` strings may affect runner behavior if the runner already uses these strings | Since the current identifiers are undefined, no compliant runner can rely on them; normalization is safe |
+| Risk                                                                                                | Mitigation                                                                                                |
+| --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| P2-C touches ~30 rules; risk of introducing typos                                                   | Mechanical find-and-replace; verify by extracting all condition identifiers and matching to definitions   |
+| Hyphen-delimited trigger identifiers (P2-C) may reduce human readability                            | Consistent with existing definitions style; readability trade-off is acceptable for machine-verifiability |
+| P1-A expands the `MUST_vs_MUST` string; risk of introducing new ambiguity                           | The three-step procedure is explicit and exhaustive; verification criteria check determinism              |
+| Changes to `conditions` strings may affect runner behavior if the runner already uses these strings | Since the current identifiers are undefined, no compliant runner can rely on them; normalization is safe  |
 
 ## 5. Items for future consideration
 

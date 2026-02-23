@@ -11,9 +11,9 @@ This document is a remediation plan for the issues identified in
 The gap analysis report identifies two root causes of internal inconsistency
 in the AI directive files authoring specification:
 
-| ID  | Issue                                         | Severity | As-Is                          | To-Be                            |
-|-----|-----------------------------------------------|----------|--------------------------------|----------------------------------|
-| P1  | Priority resolution vs conflict policy clash | Critical | Conflict resolution undefined  | Deterministic resolution         |
+| ID  | Issue                                        | Severity | As-Is                          | To-Be                              |
+| --- | -------------------------------------------- | -------- | ------------------------------ | ---------------------------------- |
+| P1  | Priority resolution vs conflict policy clash | Critical | Conflict resolution undefined  | Deterministic resolution           |
 | P2  | Condition identifier vocabulary + mismatch   | High     | MUST self-violation + no match | All identifiers defined, matchable |
 
 ---
@@ -80,15 +80,15 @@ this requirement in two ways:
 
 Identifiers used in `conditions` but not defined in `definitions`:
 
-| Identifier                                      | Usage (example)                    | In definitions |
-|------------------------------------------------|------------------------------------|----------------|
-| creating AI directive file                     | Most rules' conditions             | No             |
-| editing AI directive file                      | Most rules' conditions             | No             |
-| scope high-stakes                              | tier-separation rules              | No             |
-| scope multi-constraint                         | tier-separation rules              | No             |
-| scope long-form reasoning                      | tier-separation rules              | No             |
-| creating AI directive file that contains YAML block | yaml-include-* rules        | No             |
-| editing AI directive file that contains YAML block  | yaml-include-* rules         | No             |
+| Identifier                                          | Usage (example)        | In definitions |
+| --------------------------------------------------- | ---------------------- | -------------- |
+| creating AI directive file                          | Most rules' conditions | No             |
+| editing AI directive file                           | Most rules' conditions | No             |
+| scope high-stakes                                   | tier-separation rules  | No             |
+| scope multi-constraint                              | tier-separation rules  | No             |
+| scope long-form reasoning                           | tier-separation rules  | No             |
+| creating AI directive file that contains YAML block | yaml-include-\* rules  | No             |
+| editing AI directive file that contains YAML block  | yaml-include-\* rules  | No             |
 
 **Problem B: Token form mismatch**
 
@@ -125,13 +125,13 @@ different YAML strings; mechanical matching fails.
 
 ## 4. Implementation Order
 
-| Step | Issue | Action                                          |
-|------|-------|-------------------------------------------------|
-| 1    | P1    | Resolve priority vs conflict_policy semantics   |
-| 2    | P2    | Add missing trigger and scope definitions       |
-| 3    | P2    | Unify token form across conditions and definitions |
+| Step | Issue | Action                                                     |
+| ---- | ----- | ---------------------------------------------------------- |
+| 1    | P1    | Resolve priority vs conflict_policy semantics              |
+| 2    | P2    | Add missing trigger and scope definitions                  |
+| 3    | P2    | Unify token form across conditions and definitions         |
 | 4    | Both  | Validate that all conditions reference defined identifiers |
-| 5    | Both  | Validate conflict resolution is deterministic    |
+| 5    | Both  | Validate conflict resolution is deterministic              |
 
 ---
 
