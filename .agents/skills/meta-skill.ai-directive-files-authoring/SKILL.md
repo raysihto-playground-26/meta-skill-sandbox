@@ -5,6 +5,10 @@ description: >
   Apply when creating or editing any SKILL.md or .md under .agents/skills/ or .*/skills/*/;
   or when the user creates, writes, or authors a new skill.
   All AI directive files in this repository MUST conform to this format.
+metadata:
+  globs:
+    - ".agents/skills/meta-skill.ai-directive-files-authoring/SKILL.md"
+    - ".*/skills/*.md"
 ---
 
 ```yaml
