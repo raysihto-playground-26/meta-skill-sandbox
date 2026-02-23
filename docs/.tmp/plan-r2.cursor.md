@@ -27,13 +27,13 @@
 
 **結論：単純な「確立」ではなく、「合理的な慣行として支持される」に留める。**
 
-| 観点 | 確立度 | 根拠 |
-|------|--------|------|
-| LLM 注意メカニズム（lost-in-the-middle）の実証 | 高 | Liu et al. 2023 等、複数の独立研究で再現 |
-| 禁止事項の早期配置が遵守率を補助的に高める | 中 | 直接実証ではなく合理的推論；Semantic Gravity Wells が反証を示す |
-| 独立セクション化による明瞭性向上 | 高 | RFC 2119、法令設計論、deny-by-default で確立 |
-| MUST NOT 明示言及による逆活性化リスク | 高 | Semantic Gravity Wells (arXiv 2601.08070, 2026)：priming failure 87.5% |
-| **構造化（専用セクション）+ 事後検証の複合** | **高** | 配置のみでは保証にならない；verification による担保が必須 |
+| 観点                                           | 確立度 | 根拠                                                                   |
+| ---------------------------------------------- | ------ | ---------------------------------------------------------------------- |
+| LLM 注意メカニズム（lost-in-the-middle）の実証 | 高     | Liu et al. 2023 等、複数の独立研究で再現                               |
+| 禁止事項の早期配置が遵守率を補助的に高める     | 中     | 直接実証ではなく合理的推論；Semantic Gravity Wells が反証を示す        |
+| 独立セクション化による明瞭性向上               | 高     | RFC 2119、法令設計論、deny-by-default で確立                           |
+| MUST NOT 明示言及による逆活性化リスク          | 高     | Semantic Gravity Wells (arXiv 2601.08070, 2026)：priming failure 87.5% |
+| **構造化（専用セクション）+ 事後検証の複合**   | **高** | 配置のみでは保証にならない；verification による担保が必須              |
 
 **総合評価**：MUST NOT を独立した専用セクションとしてファイルの序盤に集約する設計は、**「構造化された専用セクション + 事後検証（verification）」の複合的アプローチとして合理的に確立されている**。配置のみによる効果が確立されているわけではない。
 
@@ -59,22 +59,22 @@
 
 ### 2.1 確定違反
 
-| 項目 | 値 |
-|------|-----|
-| ルール ID | `explanatory-must-not-permitted` |
-| 所属セクション | `authoring_obligations` |
-| statement | "When describing interpretation, semantics, or verification (as opposed to primary normative statement fields), descriptive use of the phrase MUST NOT is allowed and **MUST NOT be treated** as additional enforceable prohibitions." |
-| 規範オペレータ | MUST NOT（"MUST NOT be treated" が最初の「数える」モーダル） |
-| 違反内容 | 規範オペレータが MUST NOT だが `prohibitions` に配置されていない |
-| 参照ルール | `prohibitions-dedicated-section` |
+| 項目           | 値                                                                                                                                                                                                                                     |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ルール ID      | `explanatory-must-not-permitted`                                                                                                                                                                                                       |
+| 所属セクション | `authoring_obligations`                                                                                                                                                                                                                |
+| statement      | "When describing interpretation, semantics, or verification (as opposed to primary normative statement fields), descriptive use of the phrase MUST NOT is allowed and **MUST NOT be treated** as additional enforceable prohibitions." |
+| 規範オペレータ | MUST NOT（"MUST NOT be treated" が最初の「数える」モーダル）                                                                                                                                                                           |
+| 違反内容       | 規範オペレータが MUST NOT だが `prohibitions` に配置されていない                                                                                                                                                                       |
+| 参照ルール     | `prohibitions-dedicated-section`                                                                                                                                                                                                       |
 
 ### 2.2 副次的問題：複合述語
 
-| 項目 | 値 |
-|------|-----|
-| ルール ID | `explanatory-must-not-permitted` |
-| 問題内容 | "is allowed"（許可）と "MUST NOT be treated"（禁止）の 2 述語が同居 |
-| 参照ルール | `one-obligation-per-rule` |
+| 項目       | 値                                                                  |
+| ---------- | ------------------------------------------------------------------- |
+| ルール ID  | `explanatory-must-not-permitted`                                    |
+| 問題内容   | "is allowed"（許可）と "MUST NOT be treated"（禁止）の 2 述語が同居 |
+| 参照ルール | `one-obligation-per-rule`                                           |
 
 ### 2.3 目指す状態
 
@@ -159,12 +159,12 @@
 
 ## 5. 実施計画（Phase 1：meta-circular 回復）
 
-| Tier | 内容 |
-|------|------|
-| **Tier 0** | 全 rule record を列挙し、違反確定リストを最新化 |
-| **Tier 1** | 変更 A-1（prohibition 追加）+ A-2（statement 書き換え）を実施 |
+| Tier       | 内容                                                                                                                   |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------- |
+| **Tier 0** | 全 rule record を列挙し、違反確定リストを最新化                                                                        |
+| **Tier 1** | 変更 A-1（prohibition 追加）+ A-2（statement 書き換え）を実施                                                          |
 | **Tier 2** | YAML パース・構造検証・`prohibitions-dedicated-section` 遵守・`one-obligation-per-rule` 遵守・rule-record スキーマ確認 |
-| **Tier 3** | 人間レビューで意図の保持を確認 |
+| **Tier 3** | 人間レビューで意図の保持を確認                                                                                         |
 
 ### 5.1 受け入れ基準
 
@@ -191,14 +191,14 @@ lost-in-the-middle 対策の補助的強化として、YAML ブロック内で `
 
 ## 7. 各プランからの統合判断
 
-| 論点 | GPT | Codex | Opus | Composer | r2 方針 | 本プラン |
-|------|-----|-------|------|----------|---------|----------|
-| 確立度表現 | 過剰断言を避ける | 強い慣行 | Semantic Gravity Wells 反証 | — | 複合アプローチ | 採用 |
-| 規範オペレータ | 構文的判定手続き | 構文ルール化 | — | — | 左から走査 | 採用 |
-| A-2 statement | — | — | MUST be classified | — | r2 案 | 採用 |
-| definitions 含む | — | — | — | 明示 | 含める | 採用 |
-| prohibitions.override | — | — | — | 確認不要 | 確認不要 | 採用 |
-| Phase 2 明示 | 別タスク | — | — | 本タスクに組み込み | 別タスク | 別タスク |
+| 論点                  | GPT              | Codex        | Opus                        | Composer           | r2 方針        | 本プラン |
+| --------------------- | ---------------- | ------------ | --------------------------- | ------------------ | -------------- | -------- |
+| 確立度表現            | 過剰断言を避ける | 強い慣行     | Semantic Gravity Wells 反証 | —                  | 複合アプローチ | 採用     |
+| 規範オペレータ        | 構文的判定手続き | 構文ルール化 | —                           | —                  | 左から走査     | 採用     |
+| A-2 statement         | —                | —            | MUST be classified          | —                  | r2 案          | 採用     |
+| definitions 含む      | —                | —            | —                           | 明示               | 含める         | 採用     |
+| prohibitions.override | —                | —            | —                           | 確認不要           | 確認不要       | 採用     |
+| Phase 2 明示          | 別タスク         | —            | —                           | 本タスクに組み込み | 別タスク       | 別タスク |
 
 ---
 

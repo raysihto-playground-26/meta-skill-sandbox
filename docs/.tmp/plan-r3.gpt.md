@@ -159,4 +159,3 @@ lost-in-the-middle 対策として、YAML ブロック内の `prohibitions` を 
 1. **`definitions.tier-separation` の扱い**: `definitions.tier-separation.description` の "MUST NOT interleave" は、文脈によっては規範的禁止として機能しうる。現状は説明的使用として扱う前提で進めつつ、将来的に `no-interleave-tiers` を `prohibitions.items` に追加し definitions から参照する整理案を候補として残す。
 2. **規範オペレータ判定の lint 化**: セクション 2 の判定手続きを機械実行可能な検査へ落とし込み、`verification-machine-checkable` の充足度を高める（別タスク）。
 3. **priming リスク緩和の具体化**: MUST NOT の列挙・名指しが逆活性化しうる点（Semantic Gravity Wells）を踏まえ、記述スタイルとしての緩和策（禁止対象の直接名指し最小化、verification の重視）を別タスクとして検討する。
-
