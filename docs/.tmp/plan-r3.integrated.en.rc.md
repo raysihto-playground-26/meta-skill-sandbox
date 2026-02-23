@@ -1,12 +1,12 @@
 # Policy for a MUST NOT–Focused Section and an Authoring Skill Remediation Plan (r3 Integrated Version)
 
-Created: 2026-02-23  
-Base documents: `must-not-section-policy-and-remediation-plan-r2.md`, `plan.codex.md`, `plan.composer.md`, `plan.gpt.md`, `plan.opus.md`  
 Target file (canonical): `.agents/skills/meta-skill.ai-directive-files-authoring/SKILL.md`  
-Path note: `.cursor/skills/`, `.github/skills/`, `.claude/skills/`, `.agent/skills/`, `.gemini/skills/`, `.opencode/skills/`, `.windsurf/skills/` are all symlinks to `../.agents/skills`, and the only canonical file is the single file under `.agents/skills/`. Fixes only need to be made to this one file.  
-Status: Integrated plan (no concrete file changes)
+Path note: `.cursor/skills/`, `.github/skills/`, `.claude/skills/`, `.agent/skills/`, `.gemini/skills/`, `.opencode/skills/`, `.windsurf/skills/` are all symlinks to `../.agents/skills`, and the only canonical file is the single file under `.agents/skills/`. Fixes only need to be made to this one file.
 
----
+profile:
+
+- Apply the MUST NOT–focused section policy with **Medium strength** (normative MUST NOT rules consolidated in `prohibitions.items`; explanatory/illustrative MUST NOTs remain non-normative and are kept out of `prohibitions.items`).
+- Treat “MUST NOT consolidation” as a **high-confidence design practice** rather than an established theorem; pair it with objective verification methods.
 
 ## 0. Purpose and assumptions of this document
 
@@ -46,8 +46,6 @@ Terms in this document are defined as follows:
 - **rule record**: A structured record with `id`, `layer`, `priority`, `statement`, `conditions`, `exceptions`, `verification`.
 - **meta-circular**: A state where the authoring skill complies with all rules that it defines, within the authoring skill itself.
 - **deontic operator (normative operator)**: The primary obligation/prohibition RFC modal of a rule, identified from the `statement` field by the decision procedure described later.
-
----
 
 ## 1. Effectiveness of a MUST NOT–focused section: research grounds and design norms
 
@@ -116,8 +114,6 @@ However, the following constraints are essential:
 2. It should be evaluated as **reasonably established only as a combined approach of “a structured dedicated section + ex post verification (verification)”**. The effect of placement alone is not established.
 3. It is appropriate to position it not as an “established theorem” or “mechanism-level common knowledge”, but as a **high-confidence design practice grounded in position-dependent properties of LLMs + clarity in specification design + ease of verification** (GPT, Codex agreement).
 
----
-
 ## 2. Choosing the application strength
 
 ### 2.1 Strength levels
@@ -178,8 +174,6 @@ Scan the `statement` field from the left and treat the first RFC modal (MUST NOT
 - Introduce an explicit field such as `statement_modal` (e.g., `MUST`, `MUST_NOT`, `SHOULD`) into rule records to structurally avoid ambiguous judgments from `statement` text.
 - Implement the procedure as a linter to improve satisfaction of `verification-machine-checkable`.
 
----
-
 ## 3. Identifying meta-circular non-compliance in the current authoring skill
 
 ### 3.1 Investigation method
@@ -237,8 +231,6 @@ The phrase “MUST NOT interleave” in this description effectively functions a
 
 **Policy in this plan**: proceed by treating the definitions field as included in the permitted scope (as explanatory use) for the current state. When fixing, explicitly add “definitions” to the statements of A-1 and A-2 to resolve this ambiguity. As a future candidate task, keep the option of adding an independent prohibition rule as `no-interleave-tiers` under prohibitions and referencing it from definitions.
 
----
-
 ## 4. Goal setting
 
 ### 4.1 Target state
@@ -260,8 +252,6 @@ The phrase “MUST NOT interleave” in this description effectively functions a
 
 - **Machine-checkability**: aim for a state where “which items are prohibitions” can be determined via syntactic rules.
 - **Recurrence prevention**: consider adding verification methods so meta-circular violations do not recur when new rules are added.
-
----
 
 ## 5. Remediation policy
 
@@ -339,8 +329,6 @@ Complete by appending A-1 to the end of `prohibitions.items`.
 | A-2: rewrite existing rule | `authoring_obligations.explanatory-must-not-permitted` | change statement + verification fields only |
 | B: confirmation only       | none                                                   | no change                                   |
 
----
-
 ## 6. Final policy on application strength
 
 **Apply Medium strength as MUST (enforced).**
@@ -356,8 +344,6 @@ Concrete application rules (see deontic-operator decision procedure in Section 2
 - Moving all explanatory MUST NOTs into `prohibitions` would require promoting them into rule records, greatly inflating structure.
 - From Semantic Gravity Wells, inflating MUST NOT records increases priming risk.
 - Medium achieves most of the adherence benefit.
-
----
 
 ## 7. Execution plan
 
@@ -388,6 +374,11 @@ Based on the Codex proposal, consider adding the following verification methods:
 
 These are not acceptance conditions for Phase 1, but they are effective for preventing recurrence of meta-circular violations.
 
+Optional follow-on acceptance criteria (Phase 2/3, if executed):
+
+- Phase 2: `prohibitions` appears immediately after `interpretation` and `precedence_and_conflict` within the YAML block, without changing rule semantics.
+- Phase 3: The verification methods chosen are documented and runnable (even if initially as a checklist), and failures are treated as plan regressions.
+
 ### 7.4 Acceptance criteria (Phase 1)
 
 - For all rule records outside `prohibitions.items`, the deontic operator of `statement` is not MUST NOT.
@@ -395,23 +386,7 @@ These are not acceptance conditions for Phase 1, but they are effective for prev
 - The rule-record schema (`id, layer, priority, statement, conditions, exceptions, verification`) is maintained for all rules.
 - There is no semantic contradiction between `explanatory-must-not-permitted` and `no-treat-explanatory-must-not-as-prohibition`.
 
----
-
-## 8. Main changes from r2
-
-| Change area                                    | r2 wording                                             | r3 (this document) revision                                                                                                                                         | Rationale                                |
-| ---------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| Expression of “establishedness”                | “supported as a reasonable practice”                   | Constrain to “positioned as a high-confidence design practice”; explicitly state it is not treated as an “established theorem” / “mechanism-level common knowledge” | GPT, Codex                               |
-| Machine-checkability of the decision procedure | Defined the procedure without stating limits           | Explicitly state the limitation (full mechanical verification may require NLP), and add the future `statement_modal` concept                                        | GPT, Codex                               |
-| Permitted scope for definitions                | Implicitly permitted                                   | Explicitly include “definitions” in the statements of A-1 and A-2 to resolve ambiguity                                                                              | Composer                                 |
-| Strengthening verification methods             | Not mentioned                                          | Add `must-not-locality-validation` / `one-modal-per-rule-validation` as Phase 3 consideration                                                                       | Codex                                    |
-| Positioning of Phase 2                         | Included in execution plan but separate-task treatment | Same separate-task treatment, but explicitly numbered as a Phase to improve planfulness                                                                             | Composer                                 |
-| Explicit agent contributions                   | Mentioned in tabular form as review grounds            | Provide detailed main contributions per agent in Section 0.2 to improve integration transparency                                                                    | This plan’s self-containment requirement |
-| Terminology definitions                        | Implicit use in body                                   | Consolidate definitions in Section 0.4                                                                                                                              | Self-containment requirement             |
-
----
-
-## 9. Unresolved / items for continued consideration
+## 8. Unresolved / items for continued consideration
 
 1. **Making `definitions.tier-separation` a normative prohibition**: treat it as permitted explanatory use for now, but keep as a future candidate task to add `no-interleave-tiers` under prohibitions and reference it from definitions.
 
@@ -422,3 +397,29 @@ These are not acceptance conditions for Phase 1, but they are effective for prev
 4. **Linting the deontic-operator decision procedure**: implement the procedure in Section 2.3 as a mechanically executable linter to improve satisfaction of `verification-machine-checkable`. Consider the `statement_modal` field proposal alongside.
 
 5. **Guidelines for using MUST NOT in explanatory prose**: regarding the side effects of actively using MUST NOT in explanatory text (Codex), consider whether to shift toward “permit only when necessary (SHOULD NOT habitual use)”. At present, `explanatory-must-not-for-clarity` recommends it with SHOULD, so lowering the strength of that recommendation is a discussion point.
+
+## Addendum: Decision on “Unresolved / items for continued consideration” (Interim Hold)
+
+To unblock adoption and avoid an extended “under review / not referencable” state, we are making an interim decision to **hold** the unresolved items and proceed with a stable, usable plan. The following choices define the current direction until a later review is explicitly scheduled.
+
+### 1) Promote `definitions.tier-separation` to a normative prohibition?
+**Decision:** Hold; **keep as explanatory only (no promotion)**.  
+We will maintain the current placement and semantics: tier separation remains explanatory guidance and is not elevated into `prohibitions.items` at this time.
+
+### 2) Scaling policy across additional AI directive files
+**Decision:** Hold; choose **reference unification**: treat the **authoring skill as the single source of truth**.  
+If/when additional directive files are introduced, they should reference the authoring skill rather than duplicating the full policy text, to minimize drift and ensure consistent enforcement posture.
+
+### 3) “Semantic Gravity Wells” mitigations as concrete authoring guidelines
+**Decision:** Hold; **defer**.  
+We will not add additional prescriptive writing-style guidelines for this concern in the current iteration. This may be revisited after initial adoption, once we have evidence of recurring failure modes.
+
+### 4) Make the deontic-operator classification procedure (Section 2.3) machine-checkable (linter)
+**Decision:** Hold; pursue **staged introduction**, starting with **lightweight checks**.  
+Initial verification should emphasize high-signal structural checks (e.g., locality and placement constraints for normative MUST NOT rules). More advanced semantic checks may be added later, based on observed needs and acceptable false-positive rates.
+
+### 5) Policy for using MUST NOT in explanatory prose
+**Decision:** Hold; **keep current stance (clarity first)**.  
+We will continue to allow explanatory MUST NOT phrasing when it materially improves clarity, while relying on classification/placement rules to prevent such text from being treated as normative prohibitions.
+
+**Note:** This addendum intentionally prioritizes “plan usability and referencability” over further debate. Any changes to these interim decisions should be made via an explicit revision and re-review of this section.

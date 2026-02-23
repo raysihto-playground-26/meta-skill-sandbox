@@ -28,11 +28,11 @@ comprehensively examined, extracting points of agreement, resolving disagreement
 
 The major contributions of each agent plan are summarized below:
 
-| Agent    | Major Contributions                                                                                                                                                                                                                                           |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GPT      | Warning against the assertion strength of "established"; pointing out the need to make the Medium-strength "main predicate" determination machine-verifiable; proposing explicit documentation of the determination procedure (decision rules)                |
-| Codex    | Policy of tempering evidence expressions to "strong practical best practice"; raising the synchronization issue between `.agents` and other paths; concept of introducing explicit fields such as `statement_modal`; proposing additional verification methods (`must-not-locality-validation`, `one-modal-per-rule-validation`) |
-| Opus     | Integration of Semantic Gravity Wells (arXiv 2601.08070, 2026) as a counterargument; consistency analysis with prior implementation (previous branch commit); proposal to formulate the A-2 statement as a positive obligation: "MUST be classified as explanatory" |
+| Agent    | Major Contributions                                                                                                                                                                                                                                                                                                                                 |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GPT      | Warning against the assertion strength of "established"; pointing out the need to make the Medium-strength "main predicate" determination machine-verifiable; proposing explicit documentation of the determination procedure (decision rules)                                                                                                      |
+| Codex    | Policy of tempering evidence expressions to "strong practical best practice"; raising the synchronization issue between `.agents` and other paths; concept of introducing explicit fields such as `statement_modal`; proposing additional verification methods (`must-not-locality-validation`, `one-modal-per-rule-validation`)                    |
+| Opus     | Integration of Semantic Gravity Wells (arXiv 2601.08070, 2026) as a counterargument; consistency analysis with prior implementation (previous branch commit); proposal to formulate the A-2 statement as a positive obligation: "MUST be classified as explanatory"                                                                                 |
 | Composer | Pointing out rule A-1 schema deficiencies (`exceptions` / `verification` missing); explicit incorporation of Phase 2 (moving prohibitions to the beginning) into the implementation plan; presenting the future option of normative prohibition for `definitions.tier-separation`; confirming that `prohibitions.override` requires no verification |
 
 ### 0.3 Non-Goals
@@ -116,14 +116,14 @@ prohibitions are also placed as independent clauses/sections at the front:
 
 ### 1.5 Conclusion: Assessment of Establishment
 
-| Perspective                                                                    | Degree of Establishment | Notes                                                                                       |
-| ------------------------------------------------------------------------------ | ----------------------- | ------------------------------------------------------------------------------------------- |
-| Empirical evidence of LLM attention mechanisms (lost-in-the-middle)            | High                    | Reproduced across multiple independent studies                                              |
-| Early placement of prohibitions auxiliarily improves compliance rates           | Medium                  | Not directly demonstrated but a reasonable inference; Semantic Gravity Wells show counterevidence exists |
-| Explicitation benefits of MUST NOT consolidated placement                      | High                    | Established in specification design theory and legislative design theory; however, auxiliary rather than guaranteed |
-| Reverse activation risk from explicit mention of MUST NOT                      | High                    | Semantic Gravity Wells (2026): priming failure 87.5%                                        |
-| Combination of structuring (dedicated section) + post-hoc verification         | High                    | Placement alone is insufficient; assurance through verification is essential                 |
-| Optimal point for "how early to place"                                         | Medium                  | Near the beginning is preferable but quantitative optimum is undetermined; reverse activation possibility also to be considered |
+| Perspective                                                            | Degree of Establishment | Notes                                                                                                                           |
+| ---------------------------------------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Empirical evidence of LLM attention mechanisms (lost-in-the-middle)    | High                    | Reproduced across multiple independent studies                                                                                  |
+| Early placement of prohibitions auxiliarily improves compliance rates  | Medium                  | Not directly demonstrated but a reasonable inference; Semantic Gravity Wells show counterevidence exists                        |
+| Explicitation benefits of MUST NOT consolidated placement              | High                    | Established in specification design theory and legislative design theory; however, auxiliary rather than guaranteed             |
+| Reverse activation risk from explicit mention of MUST NOT              | High                    | Semantic Gravity Wells (2026): priming failure 87.5%                                                                            |
+| Combination of structuring (dedicated section) + post-hoc verification | High                    | Placement alone is insufficient; assurance through verification is essential                                                    |
+| Optimal point for "how early to place"                                 | Medium                  | Near the beginning is preferable but quantitative optimum is undetermined; reverse activation possibility also to be considered |
 
 **Overall assessment (integrated conclusion based on all-agent consensus)**:
 
@@ -143,12 +143,12 @@ However, the following qualifications are essential:
 
 ### 2.1 Strength Levels
 
-| Strength Level | Description                                                                                                                                                                                                                                                              |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Weak**       | SHOULD be in a dedicated section. Exceptions are broadly permitted.                                                                                                                                                                                                      |
+| Strength Level | Description                                                                                                                                                                                                                                                                              |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Weak**       | SHOULD be in a dedicated section. Exceptions are broadly permitted.                                                                                                                                                                                                                      |
 | **Medium**     | Normative MUST NOT (those whose "deontic operator" of the rule record's `statement` field is MUST NOT) are all placed in `prohibitions`. Explanatory MUST NOT (those in fields outside rule records, and those in `statement` where the deontic operator is not MUST NOT) are permitted. |
-| **Strong**     | Any MUST NOT contained in the `statement` field of any rule record is moved to `prohibitions` regardless of section.                                                                                                                                                     |
-| **Strict**     | The text MUST NOT is prohibited from appearing outside the `prohibitions` section anywhere in the entire file.                                                                                                                                                            |
+| **Strong**     | Any MUST NOT contained in the `statement` field of any rule record is moved to `prohibitions` regardless of section.                                                                                                                                                                     |
+| **Strict**     | The text MUST NOT is prohibited from appearing outside the `prohibitions` section anywhere in the entire file.                                                                                                                                                                           |
 
 ### 2.2 Recommended Strength and Rationale (All-Agent Consensus)
 
@@ -223,47 +223,47 @@ and the deontic operator determination procedure (Section 2.3) was applied.
 
 #### Violation 1: Placement of `explanatory-must-not-permitted`
 
-| Item             | Value                                                                                                                                                                                                                                |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Rule ID          | `explanatory-must-not-permitted`                                                                                                                                                                                                     |
-| Containing section | `authoring_obligations`                                                                                                                                                                                                            |
-| statement        | `"When describing interpretation, semantics, or verification (as opposed to primary normative statement fields), descriptive use of the phrase MUST NOT is allowed and MUST NOT be treated as additional enforceable prohibitions."` |
-| Deontic operator | MUST NOT ("MUST NOT be treated" is the first "counting" modal upon scanning)                                                                                                                                                         |
-| Violation detail | Deontic operator is MUST NOT but the rule is not placed in the `prohibitions` section                                                                                                                                                |
-| Reference rule   | `prohibitions-dedicated-section`                                                                                                                                                                                                     |
+| Item               | Value                                                                                                                                                                                                                                |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Rule ID            | `explanatory-must-not-permitted`                                                                                                                                                                                                     |
+| Containing section | `authoring_obligations`                                                                                                                                                                                                              |
+| statement          | `"When describing interpretation, semantics, or verification (as opposed to primary normative statement fields), descriptive use of the phrase MUST NOT is allowed and MUST NOT be treated as additional enforceable prohibitions."` |
+| Deontic operator   | MUST NOT ("MUST NOT be treated" is the first "counting" modal upon scanning)                                                                                                                                                         |
+| Violation detail   | Deontic operator is MUST NOT but the rule is not placed in the `prohibitions` section                                                                                                                                                |
+| Reference rule     | `prohibitions-dedicated-section`                                                                                                                                                                                                     |
 
 #### Secondary Issue: Compound Predicates of `explanatory-must-not-permitted`
 
-| Item             | Value                                                                                                                                                                                                    |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Rule ID          | `explanatory-must-not-permitted`                                                                                                                                                                         |
-| Issue detail     | Two predicates coexist: "is allowed" (permission) and "MUST NOT be treated" (prohibition)                                                                                                               |
-| Reference rule   | `one-obligation-per-rule`                                                                                                                                                                                |
+| Item                                   | Value                                                                                                                                                                                                                                                                         |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Rule ID                                | `explanatory-must-not-permitted`                                                                                                                                                                                                                                              |
+| Issue detail                           | Two predicates coexist: "is allowed" (permission) and "MUST NOT be treated" (prohibition)                                                                                                                                                                                     |
+| Reference rule                         | `one-obligation-per-rule`                                                                                                                                                                                                                                                     |
 | Interpretation and integrated judgment | If "is allowed" is read as equivalent to MAY, it could formally be interpreted as only one MUST NOT predicate; however, the ambiguity of "is allowed" itself goes against the spirit of `no-ambiguous-modals`, so splitting is desirable (r2, GPT, Codex, Composer consensus) |
 
 ### 3.3 Confirmed Non-Violations (Cases Where `statement` Contains MUST NOT but It Is Not the Deontic Operator)
 
-| Rule ID                            | Section                 | Form of MUST NOT occurrence                                                              | Deontic operator | Determination  |
-| ---------------------------------- | ----------------------- | ---------------------------------------------------------------------------------------- | ---------------- | -------------- |
-| `explanatory-must-not-for-clarity` | `authoring_obligations` | Appears as an example with "e.g. listing RFC keywords." Main operator is SHOULD.         | SHOULD           | **Non-violation** |
-| `use-normative-keywords`           | `authoring_obligations` | Part of RFC keywords enumeration `(MUST, MUST NOT, ...)`. Main operator is MUST.         | MUST             | **Non-violation** |
-| `prohibitions-dedicated-section`   | `authoring_obligations` | Appears as parenthetical explanation `(MUST NOT)`. Main operator is MUST.                | MUST             | **Non-violation** |
-| `define-conflict-policy`           | `authoring_obligations` | Appears within an example (`e.g. MUST vs MUST: halt`). Main operator is MUST.            | MUST             | **Non-violation** |
+| Rule ID                            | Section                 | Form of MUST NOT occurrence                                                      | Deontic operator | Determination     |
+| ---------------------------------- | ----------------------- | -------------------------------------------------------------------------------- | ---------------- | ----------------- |
+| `explanatory-must-not-for-clarity` | `authoring_obligations` | Appears as an example with "e.g. listing RFC keywords." Main operator is SHOULD. | SHOULD           | **Non-violation** |
+| `use-normative-keywords`           | `authoring_obligations` | Part of RFC keywords enumeration `(MUST, MUST NOT, ...)`. Main operator is MUST. | MUST             | **Non-violation** |
+| `prohibitions-dedicated-section`   | `authoring_obligations` | Appears as parenthetical explanation `(MUST NOT)`. Main operator is MUST.        | MUST             | **Non-violation** |
+| `define-conflict-policy`           | `authoring_obligations` | Appears within an example (`e.g. MUST vs MUST: halt`). Main operator is MUST.    | MUST             | **Non-violation** |
 
 ### 3.4 MUST NOT Outside Rule Records (Permitted as Explanatory Use)
 
 The following are MUST NOT occurrences appearing outside the `statement` field of rule records,
 falling within the permissible scope defined by `explanatory-must-not-permitted`:
 
-| Location                                                    | Field type                    |
-| ----------------------------------------------------------- | ----------------------------- |
-| `interpretation.unknown_keys`                               | interpretation prose          |
-| `interpretation.unspecified_behavior`                        | interpretation prose          |
-| `precedence_and_conflict.conflict_policy.MUST_vs_MUST`      | conflict policy prose         |
-| `failure_states_and_degradation.failure_states[0].behavior`  | behavior prose                |
-| `failure_states_and_degradation.degradation`                 | degradation prose             |
-| `definitions.tier-separation.description`                    | definition prose (see note)   |
-| `one-obligation-per-rule` verification                       | verification field            |
+| Location                                                    | Field type                  |
+| ----------------------------------------------------------- | --------------------------- |
+| `interpretation.unknown_keys`                               | interpretation prose        |
+| `interpretation.unspecified_behavior`                       | interpretation prose        |
+| `precedence_and_conflict.conflict_policy.MUST_vs_MUST`      | conflict policy prose       |
+| `failure_states_and_degradation.failure_states[0].behavior` | behavior prose              |
+| `failure_states_and_degradation.degradation`                | degradation prose           |
+| `definitions.tier-separation.description`                   | definition prose (see note) |
+| `one-obligation-per-rule` verification                      | verification field          |
 
 **Note: Regarding `definitions.tier-separation.description`** (raised by Composer)
 
@@ -389,11 +389,11 @@ could override A-2 in authoring_obligations, but the two are complementary and d
 
 ### 5.4 Assessment of Change Volume
 
-| Change                    | Target                                                     | Scope of impact                                 |
-| ------------------------- | ---------------------------------------------------------- | ----------------------------------------------- |
-| A-1: New rule addition    | End of `prohibitions.items`                                | Addition of 1 rule record                       |
-| A-2: Existing rule rewrite | `authoring_obligations.explanatory-must-not-permitted`    | Changes to statement + verification fields only |
-| B: Confirmation only      | None                                                       | No change                                       |
+| Change                     | Target                                                 | Scope of impact                                 |
+| -------------------------- | ------------------------------------------------------ | ----------------------------------------------- |
+| A-1: New rule addition     | End of `prohibitions.items`                            | Addition of 1 rule record                       |
+| A-2: Existing rule rewrite | `authoring_obligations.explanatory-must-not-permitted` | Changes to statement + verification fields only |
+| B: Confirmation only       | None                                                   | No change                                       |
 
 ---
 
@@ -422,12 +422,12 @@ Specific application rules (refer to the deontic operator determination procedur
 
 ### 7.1 Phase 1: Restoring Meta-Circular Compliance (Core of This Task)
 
-| Tier                                 | Content                                                                                                                                                   |
-| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Tier 0 (Structure confirmation)**  | Enumerate all rule records in SKILL.md and update the confirmed violation list from Sections 3.2–3.4 to the latest state.                                 |
-| **Tier 1 (Implement changes)**       | Implement Change A (add A-1 + rewrite A-2).                                                                                                               |
-| **Tier 2 (Objective verification)**  | Perform YAML parse verification, structure verification, `prohibitions-dedicated-section` compliance confirmation, `one-obligation-per-rule` compliance confirmation, and rule-record schema confirmation. |
-| **Tier 3 (Subjective quality review)** | Confirm through human review that the post-change descriptions preserve the original intent.                                                             |
+| Tier                                   | Content                                                                                                                                                                                                    |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Tier 0 (Structure confirmation)**    | Enumerate all rule records in SKILL.md and update the confirmed violation list from Sections 3.2–3.4 to the latest state.                                                                                  |
+| **Tier 1 (Implement changes)**         | Implement Change A (add A-1 + rewrite A-2).                                                                                                                                                                |
+| **Tier 2 (Objective verification)**    | Perform YAML parse verification, structure verification, `prohibitions-dedicated-section` compliance confirmation, `one-obligation-per-rule` compliance confirmation, and rule-record schema confirmation. |
+| **Tier 3 (Subjective quality review)** | Confirm through human review that the post-change descriptions preserve the original intent.                                                                                                               |
 
 ### 7.2 Phase 2: Moving the `prohibitions` Section to the Beginning (Separate Task)
 
@@ -443,10 +443,10 @@ within the YAML block to immediately after `interpretation` and `precedence_and_
 
 Based on Codex's proposal, consider adding the following verification methods:
 
-| Candidate verification method       | Purpose                                                                 |
-| ----------------------------------- | ----------------------------------------------------------------------- |
-| `must-not-locality-validation`      | Confirm that no prohibition exists outside `prohibitions.items`         |
-| `one-modal-per-rule-validation`     | Inspect for one modal per rule (prohibition of compound predicates)     |
+| Candidate verification method   | Purpose                                                             |
+| ------------------------------- | ------------------------------------------------------------------- |
+| `must-not-locality-validation`  | Confirm that no prohibition exists outside `prohibitions.items`     |
+| `one-modal-per-rule-validation` | Inspect for one modal per rule (prohibition of compound predicates) |
 
 These are not acceptance criteria for Phase 1 but are effective for preventing recurrence of meta-circular violations.
 
@@ -461,15 +461,15 @@ These are not acceptance criteria for Phase 1 but are effective for preventing r
 
 ## 8. Major Changes from r2
 
-| Change area                          | r2 description                                | r3 (this document) revision                                                                                                          | Basis           |
-| ------------------------------------ | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------- |
-| Expression of establishment degree   | "Supported as a reasonable practice"          | Qualified to "positioned as a high-confidence design practice." Explicitly stated that it is not treated as an "established theorem" or "conventional wisdom based on mechanisms" | GPT, Codex      |
-| Machine verifiability of determination procedure | Defined the determination procedure but did not explicitly state limitations | Explicitly stated the limitation (complete machine verification may require natural language analysis in some cases) and added the future `statement_modal` field concept | GPT, Codex      |
-| Permissible scope of definitions     | Implicitly permitted                          | Explicitly included "definitions" in the statements of A-1 and A-2 to resolve ambiguity                                              | Composer        |
-| Verification method strengthening    | Not mentioned                                 | Added `must-not-locality-validation` / `one-modal-per-rule-validation` as consideration items in Phase 3                              | Codex           |
-| Positioning of Phase 2               | Included in implementation plan but treated as separate task | Similarly treated as separate task but explicitly numbered as a Phase to improve planning clarity                                | Composer        |
-| Documentation of agent contributions | Mentioned in tabular form as review evidence  | Detailed each agent's major contributions in Section 0.2 to improve integration transparency                                          | Self-containment requirement of this plan |
-| Terminology                          | Used implicitly within the text               | Consolidated terminology definitions in Section 0.4                                                                                   | Self-containment requirement |
+| Change area                                      | r2 description                                                               | r3 (this document) revision                                                                                                                                                       | Basis                                     |
+| ------------------------------------------------ | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| Expression of establishment degree               | "Supported as a reasonable practice"                                         | Qualified to "positioned as a high-confidence design practice." Explicitly stated that it is not treated as an "established theorem" or "conventional wisdom based on mechanisms" | GPT, Codex                                |
+| Machine verifiability of determination procedure | Defined the determination procedure but did not explicitly state limitations | Explicitly stated the limitation (complete machine verification may require natural language analysis in some cases) and added the future `statement_modal` field concept         | GPT, Codex                                |
+| Permissible scope of definitions                 | Implicitly permitted                                                         | Explicitly included "definitions" in the statements of A-1 and A-2 to resolve ambiguity                                                                                           | Composer                                  |
+| Verification method strengthening                | Not mentioned                                                                | Added `must-not-locality-validation` / `one-modal-per-rule-validation` as consideration items in Phase 3                                                                          | Codex                                     |
+| Positioning of Phase 2                           | Included in implementation plan but treated as separate task                 | Similarly treated as separate task but explicitly numbered as a Phase to improve planning clarity                                                                                 | Composer                                  |
+| Documentation of agent contributions             | Mentioned in tabular form as review evidence                                 | Detailed each agent's major contributions in Section 0.2 to improve integration transparency                                                                                      | Self-containment requirement of this plan |
+| Terminology                                      | Used implicitly within the text                                              | Consolidated terminology definitions in Section 0.4                                                                                                                               | Self-containment requirement              |
 
 ---
 
