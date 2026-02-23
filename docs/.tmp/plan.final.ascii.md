@@ -26,7 +26,7 @@ The main contributions of each agent plan are summarized below:
 
 | Agent    | Main contribution(s)                                                                                                                                                                                                                                                                                              |
 | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GPT      | Warning about the strength of the "it is established" assertion; pointing out the need to make the Medium-strength "deontic operator" determination mechanically checkable; proposing explicit decision procedures (decision rules)                                                                                 |
+| GPT      | Warning about the strength of the "it is established" assertion; pointing out the need to make the Medium-strength "deontic operator" determination mechanically checkable; proposing explicit decision procedures (decision rules)                                                                               |
 | Codex    | Policy to constrain evidentiary language to "strong practical best practice"; raising the `.agents` vs other-path synchronization issue; concept of introducing explicit fields such as `statement_modal`; proposing added verification methods (`must-not-locality-validation`, `one-modal-per-rule-validation`) |
 | Opus     | Integrating Semantic Gravity Wells (arXiv 2601.08070, 2026) as a counterpoint; analyzing consistency with prior implementation (previous branch commit); proposing a positive obligation form for A-2 as "MUST be classified as explanatory"                                                                      |
 | Composer | Noting the schema deficiency in rule A-1 (`exceptions` / `verification` missing); explicitly incorporating Phase 2 (moving prohibitions earlier) into the execution plan; future option to make `definitions.tier-separation` a normative prohibition; "no need to re-check" judgment for `prohibitions.override` |
@@ -95,14 +95,14 @@ In design practices for laws and technical specifications (RFCs, statutes, secur
 
 ### 1.5 Conclusion: assessment of "establishedness"
 
-| Perspective                                                        | Strength | Note                                                                                                 |
-| ------------------------------------------------------------------ | -------- | ---------------------------------------------------------------------------------------------------- |
-| Empirical evidence of LLM attention mechanics (lost-in-the-middle) | High     | Replicated across multiple independent studies                                                       |
-| Early placement of prohibitions auxiliarily improves compliance    | Medium   | Reasonable inference, not direct proof; Semantic Gravity Wells shows a counterpoint exists           |
-| Explicitness benefit of a dedicated MUST NOT section               | High     | Established in specification/legal design; but auxiliary, not a guarantee                            |
-| Inverse-activation risk from explicit MUST NOT mention             | High     | Semantic Gravity Wells (2026): priming failure 87.5%                                                 |
+| Perspective                                                            | Strength | Note                                                                                                 |
+| ---------------------------------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------- |
+| Empirical evidence of LLM attention mechanics (lost-in-the-middle)     | High     | Replicated across multiple independent studies                                                       |
+| Early placement of prohibitions auxiliarily improves compliance        | Medium   | Reasonable inference, not direct proof; Semantic Gravity Wells shows a counterpoint exists           |
+| Explicitness benefit of a dedicated MUST NOT section                   | High     | Established in specification/legal design; but auxiliary, not a guarantee                            |
+| Inverse-activation risk from explicit MUST NOT mention                 | High     | Semantic Gravity Wells (2026): priming failure 87.5%                                                 |
 | Combining structure (dedicated section) + ex post verification methods | High     | Must be backed by verification methods, not placement alone                                          |
-| The optimal point for "how early" to place it                      | Medium   | Early is desirable but quantitative optimum is unsettled; inverse activation is also a consideration |
+| The optimal point for "how early" to place it                          | Medium   | Early is desirable but quantitative optimum is unsettled; inverse activation is also a consideration |
 
 **Overall assessment (integrated conclusion based on all-agent agreement)**:
 
@@ -367,10 +367,10 @@ As auxiliary reinforcement for lost-in-the-middle mitigation, move the `prohibit
 
 Based on the Codex proposal, consider adding the following verification methods:
 
-| Candidate verification method   | Purpose                                                             |
-| ------------------------------- | ------------------------------------------------------------------- |
-| `must-not-locality-validation`  | Confirm that prohibitions do not exist outside `prohibitions.items` |
-| `one-modal-per-rule-validation` | One obligation per rule (one modal per rule; ban compound predicates)                 |
+| Candidate verification method   | Purpose                                                               |
+| ------------------------------- | --------------------------------------------------------------------- |
+| `must-not-locality-validation`  | Confirm that prohibitions do not exist outside `prohibitions.items`   |
+| `one-modal-per-rule-validation` | One obligation per rule (one modal per rule; ban compound predicates) |
 
 These are not acceptance conditions for Phase 1, but they are effective for preventing recurrence of meta-circular violations.
 
