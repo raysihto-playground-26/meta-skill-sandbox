@@ -16,13 +16,13 @@ internally self-violating because:
 
 ### 0.2 Why This Comment Can Currently Be Made
 
-The comment is formally valid *given the current structure* of SKILL.md because:
+The comment is formally valid _given the current structure_ of SKILL.md because:
 
 1. The `condition_identifiers` rule contains no explicit carve-out for self-evident
    sentinel values such as `"always"`.
 2. The `constraints` key does reference `"always"` as special
    (`"Rules with conditions other than 'always' apply only when those conditions
-   match"`), but this carve-out is not surfaced inside `condition_identifiers` where
+match"`), but this carve-out is not surfaced inside `condition_identifiers` where
    the MUST requirement lives.
 3. Most importantly, SKILL.md contains no explicit statement that inference efficiency
    is the PRIMARY design goal and that formal consistency is explicitly subordinate.
@@ -32,7 +32,7 @@ The comment is formally valid *given the current structure* of SKILL.md because:
 ### 0.3 Why the Comment Should Be Structurally Unjust
 
 The purpose of SKILL.md is to maximize the quality of AI agent instruction
-interpretation.  Token efficiency and signal-to-noise ratio (S/N ratio) are the
+interpretation. Token efficiency and signal-to-noise ratio (S/N ratio) are the
 primary evaluation axes (see report_pr10_formal-consistency-priority_structural-problem.md).
 
 Requiring `"always"` to appear in `definitions` would:
@@ -54,12 +54,12 @@ direct cost of the file's stated primary design goal.
 
 ## 1. Problem Statement
 
-| ID  | Problem                                                          | Impact                                                          |
-| --- | ---------------------------------------------------------------- | --------------------------------------------------------------- |
-| R1a | No explicit primary-goal declaration in SKILL.md                 | Formal-consistency critiques have no structural counter-basis   |
-| R1b | `condition_identifiers` has no sentinel carve-out                | `"always"` is technically non-compliant with its own MUST rule  |
-| R1c | Tradeoff between formal consistency and inference efficiency is  | Reviewers can apply formal-consistency analysis without limit   |
-|     | implicit, not structurally documented                            |                                                                 |
+| ID  | Problem                                                         | Impact                                                         |
+| --- | --------------------------------------------------------------- | -------------------------------------------------------------- |
+| R1a | No explicit primary-goal declaration in SKILL.md                | Formal-consistency critiques have no structural counter-basis  |
+| R1b | `condition_identifiers` has no sentinel carve-out               | `"always"` is technically non-compliant with its own MUST rule |
+| R1c | Tradeoff between formal consistency and inference efficiency is | Reviewers can apply formal-consistency analysis without limit  |
+|     | implicit, not structurally documented                           |                                                                |
 
 ---
 
@@ -70,7 +70,7 @@ This plan proposes the following changes to the YAML block of
 The canonical file is under `.agents/skills/`; all other paths
 (`.cursor/skills/`, `.github/skills/`, etc.) are symlinks pointing there.
 
-All changes are to the YAML content only.  No changes to frontmatter structure,
+All changes are to the YAML content only. No changes to frontmatter structure,
 fenced-block structure, or other files are required.
 
 ### Change A: Add an Explicit `design_goal` Section
@@ -79,7 +79,7 @@ fenced-block structure, or other files are required.
 `interpretation` (before `precedence_and_conflict`).
 
 **Purpose**: Declare inference efficiency as the primary design goal and formal
-consistency as explicitly secondary.  This provides a structural foundation for
+consistency as explicitly secondary. This provides a structural foundation for
 rejecting critiques that optimize for formal consistency at the cost of
 inference efficiency.
 
@@ -98,7 +98,7 @@ design_goal:
 ```
 
 **Effect**: Gives any reader (human reviewer or AI runner) a declared top-level
-design axiom.  A comment such as discussion_r2841492177 -- which demands that a
+design axiom. A comment such as discussion_r2841492177 -- which demands that a
 zero-disambiguation-value sentinel be added to `definitions` -- now runs directly
 against the `tradeoff_policy` and can be rejected on structural grounds.
 
@@ -109,7 +109,7 @@ against the `tradeoff_policy` and can be rejected on structural grounds.
 
 **Purpose**: Explicitly enumerate self-evident, universally-understood sentinel
 identifiers that are exempt from the `definitions` exact-match requirement,
-and document *why* they are exempt (inference efficiency).
+and document _why_ they are exempt (inference efficiency).
 
 **Proposed content (illustrative)**:
 
@@ -127,9 +127,9 @@ inference_reserved_sentinels:
 ```
 
 **Effect**: The `"always"` identifier is now explicitly documented as an
-inference-reserved sentinel.  The `condition_identifiers` MUST requirement
+inference-reserved sentinel. The `condition_identifiers` MUST requirement
 applies to all other identifiers; `always` (and `never`) are explicitly
-out-of-scope.  A linter or runner that flags `"always"` as a missing
+out-of-scope. A linter or runner that flags `"always"` as a missing
 `definitions` entry would be incorrectly ignoring `inference_reserved_sentinels`.
 
 ### Change C: Amend `condition_identifiers` to Reference the Sentinel Carve-Out
@@ -159,7 +159,7 @@ sentinel carve-out:
 ```
 
 **Effect**: The `condition_identifiers` rule is now internally consistent with
-the use of `"always"`.  The self-violation identified by discussion_r2841492177
+the use of `"always"`. The self-violation identified by discussion_r2841492177
 is structurally eliminated -- not by adding `"always"` to `definitions`
 (which would hurt inference efficiency), but by making the exemption explicit
 within the rule itself.
@@ -217,15 +217,15 @@ After the changes in this plan are applied:
    The comment can be rejected on this structural ground alone.
 
 2. **R1b resolved**: `inference_reserved_sentinels` carves `"always"` out of
-   the `condition_identifiers` MUST requirement.  A linter implementing
+   the `condition_identifiers` MUST requirement. A linter implementing
    `condition_identifiers` correctly would pass `"always"` as valid.
    The self-violation no longer exists.
 
-3. **R1c resolved**: The tradeoff is now explicit and structural.  A reviewer
+3. **R1c resolved**: The tradeoff is now explicit and structural. A reviewer
    raising the same class of critique -- "identifier X is used in conditions
    but not defined in definitions" -- must first demonstrate that X is not
    an inference-reserved sentinel AND that adding it to definitions would
-   not harm inference efficiency.  The burden of proof shifts from the file
+   not harm inference efficiency. The burden of proof shifts from the file
    maintainer to the formal-consistency critic.
 
 ---
@@ -237,7 +237,7 @@ After the changes in this plan are applied:
 - **Out of scope**: Changes to frontmatter structure, changes to other AI
   directive files, runner/linter implementation, rollout to other skills.
 - **Explicit constraint (from problem statement)**: During the plan-authoring
-  scope, no changes are made to AI directive files.  Changes described in
+  scope, no changes are made to AI directive files. Changes described in
   Section 2 are proposals only; implementation is a separate task.
 
 ---
@@ -245,16 +245,16 @@ After the changes in this plan are applied:
 ## 6. Summary Checklist
 
 - [ ] A.1: Add `design_goal` top-level key with `primary`, `secondary`,
-       and `tradeoff_policy` fields.
+      and `tradeoff_policy` fields.
 - [ ] B.1: Add `interpretation.inference_reserved_sentinels` with `rationale`,
-       `identifiers`, and `semantics` fields.
+      `identifiers`, and `semantics` fields.
 - [ ] C.1: Amend `interpretation.condition_identifiers` to add a trailing
-       sentence referencing the sentinel exemption.
+      sentence referencing the sentinel exemption.
 - [ ] D.1: (Optional) Amend `prohibitions.override` to note that prohibitions
-       are also subject to the `design_goal` hierarchy.
+      are also subject to the `design_goal` hierarchy.
 - [ ] Verify: After changes, a linter that checks `condition_identifiers`
-       must accept `"always"` as a valid condition identifier.
+      must accept `"always"` as a valid condition identifier.
 - [ ] Verify: After changes, a reviewer citing formal-consistency absence
-       of `"always"` in `definitions` can be referred to
-       `inference_reserved_sentinels` and `design_goal.tradeoff_policy`
-       as the structural rebuttal.
+      of `"always"` in `definitions` can be referred to
+      `inference_reserved_sentinels` and `design_goal.tradeoff_policy`
+      as the structural rebuttal.

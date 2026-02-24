@@ -7,14 +7,14 @@ This is the concept that was missing from R1 and that grounds all reasoning in t
 
 ### 0.1 The Core Design Axiom
 
-  "Converge the design toward delivering ONLY the most critical instructions to the AI
-  reliably, at minimum cost (minimum context)."
+"Converge the design toward delivering ONLY the most critical instructions to the AI
+reliably, at minimum cost (minimum context)."
 
 The goal is NOT completeness (zero misreading, full coverage). The practical optimum,
 assuming non-determinism as a premise, is:
 
-  - Suppress context bloat so that important instructions are NOT crowded out ("skipped")
-  - Never drop "the absolute must-haves"
+- Suppress context bloat so that important instructions are NOT crowded out ("skipped")
+- Never drop "the absolute must-haves"
 
 This is "effectiveness optimization" -- optimizing for the probability that AI follows
 the most important instructions, not for formal perfection.
@@ -23,50 +23,48 @@ the most important instructions, not for formal perfection.
 
 The following hierarchy governs evaluation of any change to SKILL.md:
 
-  Layer 1 -- Top-level goal:
-    Instructions reach the AI correctly (= as intended) and are executed.
+Layer 1 -- Top-level goal:
+Instructions reach the AI correctly (= as intended) and are executed.
 
-  Layer 2 -- Foundational premise:
-    LLMs are non-deterministic. Targeting completeness therefore has poor
-    cost-effectiveness. "Zero misread in all cases" is not an achievable or useful goal.
+Layer 2 -- Foundational premise:
+LLMs are non-deterministic. Targeting completeness therefore has poor
+cost-effectiveness. "Zero misread in all cases" is not an achievable or useful goal.
 
-  Layer 3 -- Practical goals:
-    (a) Instruction density: hold high-importance instructions in the minimal set
-        (increase instruction density).
-    (b) S/N ratio: do not scatter attention resources with redundant explanations or
-        self-evident supplements (raise S/N).
+Layer 3 -- Practical goals:
+(a) Instruction density: hold high-importance instructions in the minimal set
+(increase instruction density).
+(b) S/N ratio: do not scatter attention resources with redundant explanations or
+self-evident supplements (raise S/N).
 
-  Layer 4 -- Balance condition:
-    - Too short: critical instructions are omitted  --> NG
-    - Too bloated for formal consistency/completeness: attention is diverted --> NG
-    The target is: "minimum enforcement" + "minimum volume" aimed at the zone where
-    failure probability is lowest.
+Layer 4 -- Balance condition: - Too short: critical instructions are omitted --> NG - Too bloated for formal consistency/completeness: attention is diverted --> NG
+The target is: "minimum enforcement" + "minimum volume" aimed at the zone where
+failure probability is lowest.
 
 ### 0.3 Implications of the Axiom
 
 (a) Completeness is not the goal.
-    Since LLMs are non-deterministic, expanding the directive to cover every edge case
-    causes context bloat, which buries critical instructions and raises failure probability.
+Since LLMs are non-deterministic, expanding the directive to cover every edge case
+causes context bloat, which buries critical instructions and raises failure probability.
 
 (b) Effectiveness is the sole evaluation axis.
-    A proposed change is evaluated not by "does it improve formal completeness?" but by
-    "does it raise the probability that the AI correctly executes critical instructions?"
+A proposed change is evaluated not by "does it improve formal completeness?" but by
+"does it raise the probability that the AI correctly executes critical instructions?"
 
 (c) Instruction compression as Attention optimization.
-    An AI agent's attention resources are finite. Spending them on self-evident definitions
-    or formal meta-rules is equivalent to stealing Attention from critical instructions.
+An AI agent's attention resources are finite. Spending them on self-evident definitions
+or formal meta-rules is equivalent to stealing Attention from critical instructions.
 
 (d) Practical optimum under non-determinism.
-    The correct question is not "how can we guarantee correct transmission?" but "how can
-    we minimize the failure probability?" A design that chases formal guarantee inflates
-    context and worsens the answer to the correct question.
+The correct question is not "how can we guarantee correct transmission?" but "how can
+we minimize the failure probability?" A design that chases formal guarantee inflates
+context and worsens the answer to the correct question.
 
 ### 0.4 One-Line Tags for This Design Philosophy
 
-  - "Maximize the stable transmission of the most critical instructions with minimal context"
-  - "Practical optimum of instruction design, assuming non-determinism"
-  - "Instruction compression as Attention resource optimization"
-  - "Effectiveness maximization, not completeness"
+- "Maximize the stable transmission of the most critical instructions with minimal context"
+- "Practical optimum of instruction design, assuming non-determinism"
+- "Instruction compression as Attention resource optimization"
+- "Effectiveness maximization, not completeness"
 
 ---
 
@@ -117,12 +115,12 @@ cost of the file's stated primary design objective.
 
 ## 2. Problem Statement
 
-| ID  | Problem                                                           | Impact                                                         |
-| --- | ----------------------------------------------------------------- | -------------------------------------------------------------- |
-| R2a | No explicit design axiom in SKILL.md                             | Comments chasing formal completeness have no structural rebuttal|
-| R2b | No acknowledgment that LLMs are non-deterministic in the design   | Completeness-chasing is not rejected at the design level       |
-| R2c | `condition_identifiers` has no sentinel carve-out                 | "always" is technically non-compliant with its own MUST rule   |
-| R2d | Tradeoff between formal consistency and effectiveness is implicit | Reviewers can apply formal-consistency analysis without limit  |
+| ID  | Problem                                                           | Impact                                                           |
+| --- | ----------------------------------------------------------------- | ---------------------------------------------------------------- |
+| R2a | No explicit design axiom in SKILL.md                              | Comments chasing formal completeness have no structural rebuttal |
+| R2b | No acknowledgment that LLMs are non-deterministic in the design   | Completeness-chasing is not rejected at the design level         |
+| R2c | `condition_identifiers` has no sentinel carve-out                 | "always" is technically non-compliant with its own MUST rule     |
+| R2d | Tradeoff between formal consistency and effectiveness is implicit | Reviewers can apply formal-consistency analysis without limit    |
 
 ---
 
@@ -140,32 +138,32 @@ Location: New top-level key in the YAML block, placed before `interpretation`.
 
 Purpose: Declare the Section 0 design philosophy as a first-class, machine-readable
 design axiom. Establish that:
-  (1) the top-level goal is effective transmission of critical instructions to AI;
-  (2) LLM non-determinism is a foundational premise, not an afterthought;
-  (3) effectiveness (failure probability minimization) is the primary evaluation axis;
-  (4) formal consistency is explicitly subordinate to effectiveness.
+(1) the top-level goal is effective transmission of critical instructions to AI;
+(2) LLM non-determinism is a foundational premise, not an afterthought;
+(3) effectiveness (failure probability minimization) is the primary evaluation axis;
+(4) formal consistency is explicitly subordinate to effectiveness.
 
 Proposed content (illustrative):
 
-  design_axiom:
-    top_level_goal: "Instructions reach the AI correctly and are executed as intended."
-    foundational_premise: "LLMs are non-deterministic; targeting completeness has poor
-      cost-effectiveness and is not a useful design goal."
-    primary_axis: "Maximize the stable transmission of the most critical instructions
-      at minimum context cost. Evaluate every change by whether it lowers the probability
-      that critical instructions are missed or ignored -- not by whether it improves
-      formal completeness."
-    practical_goals:
-      instruction_density: "Hold high-importance instructions in the minimal set;
-        do not dilute them with self-evident supplements."
-      sn_ratio: "Do not scatter AI attention resources with redundant or trivial content;
-        raise signal-to-noise ratio."
-    balance_condition: "Omitting critical instructions is NG. Bloating context for formal
-      consistency or completeness is also NG. Target: minimum enforcement + minimum volume
-      in the zone where failure probability is lowest."
-    tradeoff_policy: "When formal consistency and effectiveness conflict, effectiveness
-      takes precedence. A change that improves formal completeness at the direct cost of
-      instruction density, context size, or S/N ratio is out-of-scope for this file."
+design_axiom:
+top_level_goal: "Instructions reach the AI correctly and are executed as intended."
+foundational_premise: "LLMs are non-deterministic; targeting completeness has poor
+cost-effectiveness and is not a useful design goal."
+primary_axis: "Maximize the stable transmission of the most critical instructions
+at minimum context cost. Evaluate every change by whether it lowers the probability
+that critical instructions are missed or ignored -- not by whether it improves
+formal completeness."
+practical_goals:
+instruction_density: "Hold high-importance instructions in the minimal set;
+do not dilute them with self-evident supplements."
+sn_ratio: "Do not scatter AI attention resources with redundant or trivial content;
+raise signal-to-noise ratio."
+balance_condition: "Omitting critical instructions is NG. Bloating context for formal
+consistency or completeness is also NG. Target: minimum enforcement + minimum volume
+in the zone where failure probability is lowest."
+tradeoff_policy: "When formal consistency and effectiveness conflict, effectiveness
+takes precedence. A change that improves formal completeness at the direct cost of
+instruction density, context size, or S/N ratio is out-of-scope for this file."
 
 Effect: Every reader (human reviewer or AI runner) now has a declared design axiom before
 encountering any rules. A comment such as `discussion_r2841492177` -- which demands a
@@ -182,12 +180,12 @@ immediately counterable by referencing this premise.
 
 Proposed content (illustrative):
 
-  non_determinism_premise: "LLM instruction adherence is probabilistic, not guaranteed.
-    This file is not designed to achieve completeness or zero-misread; it is designed to
-    minimize the probability that critical instructions are missed. Rules and definitions
-    are included only when their inclusion lowers that probability. Rules or definitions
-    whose primary effect is to satisfy formal consistency without reducing failure
-    probability are contrary to this file's design intent."
+non_determinism_premise: "LLM instruction adherence is probabilistic, not guaranteed.
+This file is not designed to achieve completeness or zero-misread; it is designed to
+minimize the probability that critical instructions are missed. Rules and definitions
+are included only when their inclusion lowers that probability. Rules or definitions
+whose primary effect is to satisfy formal consistency without reducing failure
+probability are contrary to this file's design intent."
 
 Effect: Any formal-consistency-only demand (e.g., "add always to definitions") can be
 evaluated against this key: does adding it lower failure probability? If not, it is
@@ -204,15 +202,15 @@ are exempt (Attention cost, zero disambiguation value, design_axiom).
 
 Proposed content (illustrative):
 
-  inference_reserved_sentinels:
-    rationale: "The following identifiers carry universally understood semantics that
-      require no definitional disambiguation. Adding them to definitions would incur
-      Attention cost with zero S/N benefit, violating design_axiom.tradeoff_policy.
-      They are exempt from the condition_identifiers exact-match requirement."
-    identifiers: ["always", "never"]
-    semantics:
-      always: "The rule applies unconditionally, regardless of any other context."
-      never: "The rule never applies; it is effectively disabled."
+inference_reserved_sentinels:
+rationale: "The following identifiers carry universally understood semantics that
+require no definitional disambiguation. Adding them to definitions would incur
+Attention cost with zero S/N benefit, violating design_axiom.tradeoff_policy.
+They are exempt from the condition_identifiers exact-match requirement."
+identifiers: ["always", "never"]
+semantics:
+always: "The rule applies unconditionally, regardless of any other context."
+never: "The rule never applies; it is effectively disabled."
 
 Effect: "always" is now explicitly documented as an inference-reserved sentinel.
 A linter that flags "always" as a missing `definitions` entry is incorrectly ignoring
@@ -228,8 +226,8 @@ inference-reserved sentinels. Eliminates the formal self-violation.
 
 Proposed amendment: Append to the current text:
 
-  "Identifiers listed under inference_reserved_sentinels are exempt from this requirement
-  and are valid condition identifiers without a corresponding definitions entry."
+"Identifiers listed under inference_reserved_sentinels are exempt from this requirement
+and are valid condition identifiers without a corresponding definitions entry."
 
 Effect: `condition_identifiers` is now internally consistent with the use of "always".
 The self-violation identified by `discussion_r2841492177` is structurally eliminated.
@@ -312,18 +310,18 @@ After the changes in this plan are applied:
 ## 7. Summary Checklist
 
 - [ ] A.1: Add `design_axiom` top-level key with `top_level_goal`, `foundational_premise`,
-       `primary_axis`, `practical_goals`, `balance_condition`, and `tradeoff_policy` fields.
+      `primary_axis`, `practical_goals`, `balance_condition`, and `tradeoff_policy` fields.
 - [ ] B.1: Add `interpretation.non_determinism_premise` making the LLM non-determinism
-       assumption machine-readable.
+      assumption machine-readable.
 - [ ] C.1: Add `interpretation.inference_reserved_sentinels` with `rationale`,
-       `identifiers`, and `semantics` fields.
+      `identifiers`, and `semantics` fields.
 - [ ] D.1: Amend `interpretation.condition_identifiers` to add a trailing sentence
-       referencing the sentinel exemption.
+      referencing the sentinel exemption.
 - [ ] E.1: (Optional) Amend `prohibitions.override` to note that prohibitions are also
-       subject to `design_axiom`.
+      subject to `design_axiom`.
 - [ ] Verify: A linter checking `condition_identifiers` must accept "always" as valid.
 - [ ] Verify: A reviewer citing the absence of "always" in `definitions` can be referred
-       to `inference_reserved_sentinels` (formal rebuttal) and `design_axiom.tradeoff_policy`
-       plus `non_determinism_premise` (design-philosophy rebuttal).
+      to `inference_reserved_sentinels` (formal rebuttal) and `design_axiom.tradeoff_policy`
+      plus `non_determinism_premise` (design-philosophy rebuttal).
 - [ ] Verify: The new keys do not add token overhead that exceeds the S/N benefit they
-       provide (they must themselves satisfy the design_axiom they declare).
+      provide (they must themselves satisfy the design_axiom they declare).
