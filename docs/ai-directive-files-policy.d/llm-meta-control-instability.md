@@ -2,9 +2,6 @@
 
 ## -- The Structural Difficulty of Self-Consistency and a Representative Case --
 
-**Source of truth and translations**  
-This document (the English version) is the source of truth. When changing the content, edit this English version. The Japanese version (`.ja.md`) is generated as a translation of this document (e.g. by AI). Do not edit the Japanese version directly; the Japanese version is maintained primarily by translating the English version after any updates.
-
 ---
 
 ## 1. Higher-Level Framing of the Problem

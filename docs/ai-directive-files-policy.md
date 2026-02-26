@@ -95,6 +95,19 @@ Rationale:
 - The file becomes a compact, parseable "contract" for both humans and models.
 - It prevents accidental dilution by narrative text.
 
+## Language (MUST)
+
+AI directive files MUST be written in English.
+
+Rationale:
+
+- English maximizes model interpretation stability (largest training
+  distribution across LLM architectures).
+- Mixed-language directive sets introduce parsing ambiguity and
+  unpredictable attention distribution.
+- This is a Class 1 hard constraint: omitting it predictably increases
+  interpretation variance when contributors may default to other languages.
+
 ## Interpretation contract placement (MUST)
 
 Some references recommend placing a binding interpretation contract as prose
@@ -207,6 +220,7 @@ Use:
 
 - Priority order and conflict policy (Sections 0.1, 0.2).
 - No-assumptions / missing-info behavior (Section 0.3, 5.3).
+- English language requirement (Section 1.0).
 - Normative keywords discipline (Section 1.1) and atomic rules (Section 3).
 - "Do not print checklists by default" (Section 6.2).
 
