@@ -1,5 +1,5 @@
 ---
-name: "meta-skill.ai-directive-files-authoring"
+name: "std-meta-skill-ai-directive-files-authoring"
 description: "Defines mandatory format for AI directive files (frontmatter + single YAML block, no prose). Apply when creating or editing any SKILL.md or .md under .agents/skills/, or any .*/skills/*/ path; or when the user creates, writes, or authors a new skill in this repository. All skill files in this repo must conform to this format."
 globs:
   - ".*/skills/*/*.md"
