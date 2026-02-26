@@ -196,9 +196,9 @@ When tasks are complex or high-stakes, use tier separation:
 Avoid over-fragmentation. Only add tiers when they reduce failure probability
 more than they increase overhead.
 
-## How this policy uses `docs/guides.sub/*.md` (normative mapping)
+## How this policy uses `docs/ai-directive-files-policy.d/*.md` (normative mapping)
 
-The files under `docs/guides.sub/` are reference materials. This file is the
+The files under `docs/ai-directive-files-policy.d/` are reference materials. This file is the
 canonical policy. The rules below define which parts are adopted.
 
 ### `ai-directive-files-best-practices.md`
