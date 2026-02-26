@@ -3,7 +3,7 @@
 This document is the canonical policy for AI directive files in this repository.
 It optimizes for: maximize instruction adherence stability with minimal context.
 
-This guide intentionally does not pursue "complete coverage" or "zero ambiguity"
+This policy intentionally does not pursue "complete coverage" or "zero ambiguity"
 through exhaustive definitions and checklists. It prioritizes practical
 robustness under LLM non-determinism.
 
@@ -44,12 +44,12 @@ When trade-offs are unclear, prefer the option that maximizes adherence stabilit
 
 ## Scope
 
-This guide applies to:
+This policy applies to:
 
 - AI directive files (instruction files intended to constrain model behavior).
 - How we structure, compress, and validate instructions for reliability.
 
-This guide does not prescribe:
+This policy does not prescribe:
 
 - A universal taxonomy for every project.
 - Exhaustive definitions for obvious words.
@@ -196,7 +196,7 @@ When tasks are complex or high-stakes, use tier separation:
 Avoid over-fragmentation. Only add tiers when they reduce failure probability
 more than they increase overhead.
 
-## How this guide uses `docs/guides.sub/*.md` (normative mapping)
+## How this policy uses `docs/guides.sub/*.md` (normative mapping)
 
 The files under `docs/guides.sub/` are reference materials. This file is the
 canonical policy. The rules below define which parts are adopted.
@@ -215,7 +215,7 @@ Do not adopt as mandatory defaults:
 - Any template that uses `conditions: always`. Read it as "unconditional", and
   omit `conditions` entirely in this repository.
 - Full per-rule verification fields for every rule (Section 6.1) as a blanket
-  requirement. Apply selectively as described in this guide.
+  requirement. Apply selectively as described in this policy.
 - Minimal test suite and traceability requirements (Sections 7.1, 7.2) as a
   blanket requirement. Use only when the cost is justified.
 - Templates that embed YAML-like blocks inside prose-heavy Markdown (Section 9)
