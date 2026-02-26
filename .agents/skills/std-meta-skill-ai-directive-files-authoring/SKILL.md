@@ -6,8 +6,8 @@ description: >-
   When designing or authoring an AI directive file (such as a skill), the AI Agent MUST ensure that the file strictly complies with the mandatory requirements defined in this document.
 metadata:
   globs:
-    - ".agents/skills/std-meta-skill-ai-directive-files-authoring/SKILL.md"
     - ".*/skills/*/*.md"
+    - ".agents/skills/std-meta-skill-ai-directive-files-authoring/SKILL.md"
 ---
 
 ```yaml
@@ -69,6 +69,21 @@ rules:
       (enumerations), not prose.
     forbidden:
       - prose-embedded conditions in statement text
+
+  - id: globs_design
+    level: MUST
+    statement: >-
+      metadata.globs MUST NOT copy, reuse, or be based on the globs defined in this file.
+      metadata.globs MUST either be omitted or match the target files for the AI directive being defined.
+
+  - id: reference_exemplar
+    level: MUST
+    statement: >-
+      When creating a new AI directive file, the new file MUST model its
+      structure and style exclusively after
+      .agents/skills/std-meta-skill-ai-directive-files-authoring/SKILL.md
+      and no other files.
+    conditions: creating_new_ai_directive_file
 
   - id: lean_and_mean
     level: MUST
