@@ -1,68 +1,89 @@
 ---
 name: "std-meta-skill-ai-directive-files-authoring"
-description: "Defines mandatory format for AI directive files (frontmatter + single YAML block, no prose). Apply when creating or editing any SKILL.md or .md under .agents/skills/, or any .*/skills/*/ path; or when the user creates, writes, or authors a new skill in this repository. All skill files in this repo must conform to this format."
-globs:
-  - ".*/skills/*/*.md"
+description: >-
+  Mandatory requirements for AI directive files: A YAML-only format and authoring protocol (frontmatter and single YAML block) with zero prose.
+  When creating or modifying any .md file within .agents/skills/*/ or .*/skills/*/ directories, the AI Agent MUST ensure that the file strictly complies with the mandatory requirements defined in this document.
+  When designing or authoring an AI directive file (such as a skill), the AI Agent MUST ensure that the file strictly complies with the mandatory requirements defined in this document.
+metadata:
+  globs:
+    - ".agents/skills/std-meta-skill-ai-directive-files-authoring/SKILL.md"
+    - ".*/skills/*/*.md"
 ---
 
 ```yaml
-definitions:
-  ai-directives:
-    description: "Declarative configuration directives that govern AI behavior and capabilities"
-    canonical-terms:
-      - "AI directives"
-      - "AI directive files"
-  ai-directive-files:
-    description: "Markdown files (.md) located under .*/skills/ directories that contain AI directives"
-    file-extensions:
-      - ".md"
-    directory-locations:
-      - ".*/skills/"
+interpretation:
+  precedence: list_order
+  assumption: closed_world
 
 rules:
-  format:
-    - id: "frontmatter-required"
-      requirement: "Every AI directive file MUST begin with a YAML frontmatter block enclosed by triple-dash delimiters"
-    - id: "single-yaml-block"
-      requirement: "Every AI directive file MUST contain exactly one fenced YAML code block after the frontmatter"
-    - id: "no-prose"
-      requirement: "No narrative text, prose, or non-YAML content is permitted outside the frontmatter and the single fenced YAML code block"
-    - id: "whitespace-only-separators"
-      requirement: "Only whitespace characters (newlines, spaces) are permitted between the frontmatter closing delimiter and the fenced YAML code block opening delimiter"
-  content:
-    - id: "declarative-deterministic-definitional"
-      requirement: "All YAML content MUST be declarative, deterministic, and definitional in structure"
-    - id: "structured-english"
-      requirement: "All YAML string values expressing rules or specifications MUST use structured English"
-    - id: "standard-parseable"
-      requirement: "All YAML content MUST be parseable by any standard compliant YAML parser without errors"
+  - id: canonical_structure
+    level: MUST
+    statement: >-
+      Every AI directive file MUST consist of exactly:
+      (1) YAML frontmatter (--- delimited),
+      (2) a single fenced YAML code block,
+      (3) nothing else.
+    forbidden:
+      - prose outside frontmatter and the YAML code block
+      - multiple code blocks
+      - any content after the closing code fence
 
-verification:
-  methods:
-    - id: "structure-validation"
-      description: "Verify file structure conforms to format rules"
-      steps:
-        - "Read the entire file content as plain text"
-        - "Assert the file starts with the frontmatter opening delimiter (triple-dash line)"
-        - "Extract the frontmatter block between the first and second triple-dash delimiters"
-        - "Scan the remainder of the file for fenced YAML code blocks"
-        - "Assert exactly one fenced YAML code block exists in the remainder"
-        - "Assert no non-whitespace content exists outside the frontmatter and the fenced YAML code block"
-    - id: "yaml-parse-validation"
-      description: "Verify all YAML content is parseable by a standard YAML parser"
-      steps:
-        - "Extract the frontmatter YAML content (between triple-dash delimiters)"
-        - "Parse it with a standard YAML parser and assert success"
-        - "Extract the fenced YAML code block content (between code fence delimiters)"
-        - "Parse it with a standard YAML parser and assert success"
-    - id: "no-prose-validation"
-      description: "Verify the complete absence of narrative prose"
-      steps:
-        - "Remove the frontmatter block (including delimiters) from the file content"
-        - "Remove the fenced YAML code block (including delimiters) from the file content"
-        - "Assert the remaining content consists exclusively of whitespace characters"
-  self-validation:
-    description: "This AI directive file MUST pass all verification methods defined herein"
-    meta-circular: true
-    assertion: "The file .*/skills/meta-skill.ai-directive-files-authoring/SKILL.md is itself an AI directive file and MUST strictly conform to every rule it defines"
+  - id: interpretation_contract_placement
+    level: MUST
+    statement: >-
+      Any binding interpretation contract MUST be encoded inside the YAML
+      block, not as prose.
+
+  - id: yaml_validity
+    level: MUST
+    statement: >-
+      Both the frontmatter and the YAML code block MUST be valid,
+      parseable YAML. The canonical format is prettier default options.
+      Output MUST pass prettier --check.
+
+  - id: closed_world_interpretation
+    level: MUST
+    statement: >-
+      AI directive files MUST declare closed-world interpretation
+      semantics in the interpretation section of the YAML block.
+      Unspecified behavior MUST be forbidden. The model MUST NOT
+      fill gaps autonomously beyond what is explicitly declared.
+
+  - id: priority_and_conflict
+    level: MUST
+    statement: >-
+      Directive files MUST define a stable precedence mechanism and a
+      deterministic conflict policy with a safe failure mode.
+
+  - id: unconditional_rule_form
+    level: MUST
+    statement: >-
+      Unconditional rules MUST omit the conditions field entirely.
+    forbidden:
+      - "conditions: always"
+
+  - id: conditional_rule_form
+    level: MUST
+    statement: >-
+      Conditional rules MUST use explicit condition triggers
+      (enumerations), not prose.
+    forbidden:
+      - prose-embedded conditions in statement text
+
+  - id: lean_and_mean
+    level: MUST
+    statement: >-
+      Omit anything obvious or safely implicit. Do not omit anything
+      whose absence would predictably cause failures. Prefer constraint
+      density over completeness.
+    forbidden:
+      - redundant rationale or definitions for self-evident terms
+      - verbose statements where a concise form suffices
+      - fields added purely for completeness with no failure-prevention value
+
+  - id: meta_circular_compliance
+    level: MUST
+    statement: >-
+      This file is itself an AI directive file. Any modification to this
+      file MUST preserve compliance with all rules defined herein.
 ```
