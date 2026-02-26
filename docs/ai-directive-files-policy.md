@@ -21,7 +21,19 @@ Therefore:
 Human readability and maintainability are secondary objectives.
 Do not increase context size for readability unless it reduces the probability of instruction failure.
 
-**Lean and mean is the default:** omit anything that is obvious or safely implicit, but do not omit anything whose absence would predictably cause failures.
+**Lean and mean is the default** (optimizing for adherence stability, not mere brevity):
+
+- **Class 1 — Hard constraints** (absence predictably causes failure or measurably increases
+  interpretation variance): keep first, compact and dense.
+- **Class 2 — Soft guidance** (not a hard failure, but needed to reduce interpretation
+  variance): keep, labeled `# advisory`, kept short.
+- **Class 3 — Obvious / safely implicit**: remove.
+
+Decision criterion: "Would omitting this predictably cause failure, or measurably increase
+interpretation variance?" — No → remove.
+
+"Failure" here includes both hard errors and predictable increases in interpretation variance
+(adherence stability degradation).
 
 ## Status and Precedence
 
@@ -160,6 +172,8 @@ Verification requirements SHOULD be applied selectively:
 - MUST/MUST NOT rules at the highest layers or highest priority should have a
   concrete validation strategy.
 - Lower-impact rules may omit verification to avoid expanding context.
+- Verification strategies for Class 1 (hard constraints) are NOT subject to
+  lean-and-mean reduction; do not omit them to save context.
 
 ## Instruction compression and invocation scope (SHOULD)
 
