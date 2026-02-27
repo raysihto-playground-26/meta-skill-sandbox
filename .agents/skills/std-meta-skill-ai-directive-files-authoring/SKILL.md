@@ -88,19 +88,19 @@ rules:
   - id: lean_and_mean_class1
     level: MUST
     statement: >-
-      Class 1 — hard constraint (absence predictably causes failure or measurably
-      increases interpretation variance): keep first, compact and dense.
+      Content whose absence would predictably cause failure or measurably increase
+      interpretation variance MUST NOT be omitted; place it first, compact and dense.
 
   - id: lean_and_mean_class2
-    level: MUST
+    level: SHOULD
     statement: >-
-      Class 2 — soft guidance (not a hard failure, but reduces interpretation
-      variance): keep, labeled `# advisory`, kept short.
+      Content that reduces interpretation variance but is not a hard failure if absent
+      SHOULD be kept, labeled `# advisory`, and kept short.
 
   - id: lean_and_mean_class3
     level: MUST
     statement: >-
-      Class 3 — obvious or safely implicit: remove.
+      Obvious or safely implicit content MUST be omitted.
     forbidden:
       - redundant rationale or definitions for self-evident terms
       - verbose statements where a concise form suffices
