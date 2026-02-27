@@ -85,12 +85,22 @@ rules:
       and no other files.
     conditions: creating_new_ai_directive_file
 
-  - id: lean_and_mean
+  - id: lean_and_mean_class1
     level: MUST
     statement: >-
-      Omit anything obvious or safely implicit. Do not omit anything
-      whose absence would predictably cause failures. Prefer constraint
-      density over completeness.
+      Class 1 — hard constraint (absence predictably causes failure or measurably
+      increases interpretation variance): keep first, compact and dense.
+
+  - id: lean_and_mean_class2
+    level: MUST
+    statement: >-
+      Class 2 — soft guidance (not a hard failure, but reduces interpretation
+      variance): keep, labeled `# advisory`, kept short.
+
+  - id: lean_and_mean_class3
+    level: MUST
+    statement: >-
+      Class 3 — obvious or safely implicit: remove.
     forbidden:
       - redundant rationale or definitions for self-evident terms
       - verbose statements where a concise form suffices
