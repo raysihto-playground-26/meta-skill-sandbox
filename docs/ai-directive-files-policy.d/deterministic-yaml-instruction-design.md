@@ -1,8 +1,3 @@
----
-name: strict_verified_response
-version: 1
----
-
 # Deterministic YAML-Based Instruction Design
 
 ## Scope

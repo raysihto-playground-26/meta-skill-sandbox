@@ -95,6 +95,34 @@ Rationale:
 - The file becomes a compact, parseable "contract" for both humans and models.
 - It prevents accidental dilution by narrative text.
 
+## Language (MUST)
+
+AI directive files MUST be written in English.
+
+Rationale:
+
+- English maximizes model interpretation stability (largest training
+  distribution across LLM architectures).
+- Mixed-language directive sets introduce parsing ambiguity and
+  unpredictable attention distribution.
+- This is a Class 1 hard constraint: omitting it predictably increases
+  interpretation variance when contributors may default to other languages.
+
+## Description requirements (MUST / SHOULD)
+
+The `description` field in the frontmatter MUST include trigger conditions:
+when to activate the skill and in what contexts.
+
+Do not put trigger conditions only in the body. The body is loaded only after
+the skill is already triggered; trigger information placed exclusively in the
+body is invisible at invocation time. This is a Class 1 hard constraint.
+
+The `description` SHOULD be written to actively encourage triggering in
+relevant contexts. Undertriggering — the model not invoking the skill even
+when it would be useful — is an empirically observed failure mode. A
+description that explicitly names phrases, contexts, and even edge cases
+reduces this risk. This is a Class 2 soft constraint.
+
 ## Interpretation contract placement (MUST)
 
 Some references recommend placing a binding interpretation contract as prose
@@ -196,9 +224,9 @@ When tasks are complex or high-stakes, use tier separation:
 Avoid over-fragmentation. Only add tiers when they reduce failure probability
 more than they increase overhead.
 
-## How this policy uses `docs/guides.sub/*.md` (normative mapping)
+## How this policy uses `docs/ai-directive-files-policy.d/*.md` (normative mapping)
 
-The files under `docs/guides.sub/` are reference materials. This file is the
+The files under `docs/ai-directive-files-policy.d/` are reference materials. This file is the
 canonical policy. The rules below define which parts are adopted.
 
 ### `ai-directive-files-best-practices.md`
@@ -207,6 +235,7 @@ Use:
 
 - Priority order and conflict policy (Sections 0.1, 0.2).
 - No-assumptions / missing-info behavior (Section 0.3, 5.3).
+- English language requirement (Section 1.0).
 - Normative keywords discipline (Section 1.1) and atomic rules (Section 3).
 - "Do not print checklists by default" (Section 6.2).
 
