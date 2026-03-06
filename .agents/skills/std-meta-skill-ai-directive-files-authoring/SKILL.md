@@ -4,16 +4,16 @@ description: >-
   Mandatory requirements for AI directive files: A YAML-only format and authoring protocol (frontmatter and single YAML block) with zero prose.
   When creating or modifying any .md file within .agents/skills/*/ or .*/skills/*/ directories, the AI Agent MUST ensure that the file strictly complies with the mandatory requirements defined in this document.
   When designing or authoring an AI directive file (such as a skill), the AI Agent MUST ensure that the file strictly complies with the mandatory requirements defined in this document.
-metadata:
-  globs:
-    - ".agents/skills/std-meta-skill-ai-directive-files-authoring/SKILL.md"
-    - ".*/skills/*/*.md"
 ---
 
 ```yaml
 interpretation:
   precedence: list_order
   assumption: closed_world
+
+globs:
+  - ".*/skills/*/*.md"
+  - ".agents/skills/std-meta-skill-ai-directive-files-authoring/SKILL.md"
 
 rules:
   - id: canonical_structure
@@ -28,6 +28,20 @@ rules:
       - multiple code blocks
       - any content after the closing code fence
 
+  - id: description_trigger
+    level: MUST
+    statement: >-
+      The frontmatter description field MUST include trigger conditions:
+      when and in what contexts the skill activates.
+    forbidden:
+      - placing trigger conditions exclusively in the body
+
+  - id: description_pushy
+    level: SHOULD
+    statement: >-
+      The description SHOULD actively encourage triggering in relevant contexts.
+    rationale: undertriggering is an empirically observed failure mode
+
   - id: interpretation_contract_placement
     level: MUST
     statement: >-
@@ -37,9 +51,8 @@ rules:
   - id: yaml_validity
     level: MUST
     statement: >-
-      Both the frontmatter and the YAML code block MUST be valid,
-      parseable YAML. The canonical format is prettier default options.
-      Output MUST pass prettier --check.
+      Both the frontmatter and the YAML code block MUST be valid, parseable YAML.
+    verification: prettier --check with default options
 
   - id: closed_world_interpretation
     level: MUST
@@ -69,6 +82,30 @@ rules:
       (enumerations), not prose.
     forbidden:
       - prose-embedded conditions in statement text
+
+  - id: globs_in_body
+    level: MUST
+    statement: >-
+      The directive MUST declare a top-level globs key inside the YAML body block
+      listing the paths it must auto-apply to.
+    conditions: directive_has_target_paths
+
+  - id: globs_match_target
+    level: MUST
+    statement: >-
+      globs MUST match the target files for the directive being defined.
+    forbidden:
+      - copying, reusing, or basing globs on the globs in this file
+    conditions: directive_has_target_paths
+
+  - id: reference_exemplar
+    level: MUST
+    statement: >-
+      When creating a new AI directive file, the new file MUST model its
+      structure and style exclusively after
+      .agents/skills/std-meta-skill-ai-directive-files-authoring/SKILL.md
+      and no other files.
+    conditions: creating_new_ai_directive_file
 
   - id: lean_and_mean
     level: MUST

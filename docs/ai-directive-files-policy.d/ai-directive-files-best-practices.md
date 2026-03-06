@@ -4,9 +4,6 @@
 
 ### Core Axes: English x Spec-style x Structured x Atomic x Priority-defined
 
-**Source of truth and translations**  
-This document (the English version) is the source of truth. When changing the content, edit this English version. The Japanese version (`.ja.md`) is generated as a translation of this document (e.g. by AI). Do not edit the Japanese version directly; the Japanese version is maintained primarily by translating the English version after any updates.
-
 ---
 
 ## 0. Non-negotiable Principles
@@ -41,6 +38,12 @@ This document (the English version) is the source of truth. When changing the co
 ---
 
 ## 1. Language & Style: English x Spec-style
+
+### 1.0 Language
+
+- **MUST** write all AI directive files in English.
+- English maximizes interpretation stability across LLM architectures and training distributions.
+- **MUST NOT** mix languages within a single directive file.
 
 ### 1.1 Normative Keywords
 
