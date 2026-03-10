@@ -64,6 +64,20 @@ rules:
           whenever the user asks to commit -- including casual variants
           ("commit", "please commit"). When in doubt, prefer triggering.
 
+  - id: confirm_triggers
+    level: SHOULD
+    priority: 85
+    statement: >-
+      Before drafting a new directive file, the agent SHOULD ask the user
+      to specify or confirm the skill's trigger conditions -- when, in what
+      contexts, and on what user actions the skill should activate.
+      If the runtime environment does not support interactive prompting,
+      infer from available context and document assumptions in the output.
+    conditions: creating_new_ai_directive_file
+    rationale: >-
+      trigger conditions are the highest-impact, hardest-to-infer aspect
+      of a directive; undertriggering is a known failure mode
+
   - id: globs_match_target
     level: MUST
     priority: 75
