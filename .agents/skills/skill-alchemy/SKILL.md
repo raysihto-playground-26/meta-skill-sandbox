@@ -1,5 +1,5 @@
 ---
-name: "std-meta-skill-ai-directive-files-authoring"
+name: "skill-alchemy"
 description: >-
   Mandatory requirements for AI directive files: A YAML-only format and authoring protocol (frontmatter and single YAML block) with zero prose.
   MUST trigger whenever the AI Agent creates, modifies, refactors, or touches any .md file in .agents/skills/*/ or .*/skills/*/ directories.
@@ -16,7 +16,7 @@ interpretation:
 
 globs:
   - ".*/skills/*/*.md"
-  - ".agents/skills/std-meta-skill-ai-directive-files-authoring/SKILL.md"
+  - ".agents/skills/skill-alchemy/SKILL.md"
 
 rules:
   - id: canonical_structure
@@ -38,7 +38,7 @@ rules:
     statement: >-
       When creating a new AI directive file, the new file MUST model its
       structure and style exclusively after
-      .agents/skills/std-meta-skill-ai-directive-files-authoring/SKILL.md
+      .agents/skills/skill-alchemy/SKILL.md
       and no other files.
     conditions: creating_new_ai_directive_file
 
