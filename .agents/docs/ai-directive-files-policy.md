@@ -84,9 +84,13 @@ interpretation:
   unspecified_behavior: forbidden
   extrapolation: forbidden
   precedence: explicit_priority_field
+  priority_direction: higher_wins
 
 rules:
-  - xxx
+  - id: example_rule
+    level: MUST
+    priority: 100
+    statement: ...
 ```
 ````
 
@@ -141,16 +145,38 @@ Therefore:
 
 Directive rule systems MUST define:
 
-- A stable precedence order for rule layers (or an equivalent mechanism).
+- A stable precedence mechanism for rules.
 - A deterministic conflict policy with a safe failure mode.
 
-Default policy (recommended):
+**Precedence mechanism** — `explicit_priority_field`: every rule MUST carry a
+numeric `priority` value. Convention: `priority_direction: higher_wins` (higher
+numeric value = higher priority). This is a Class 1 hard constraint: the
+repository also uses P0/P1/P2 conventions (lower number = higher priority) in
+other contexts, so the direction MUST be declared explicitly to prevent
+misinterpretation.
 
-- Higher layer wins.
-- Within a layer, higher priority wins.
-- If still tied, the more specific rule wins.
-- If a true conflict remains between non-negotiable rules, halt (or request
-  clarification). Do not guess.
+**Overrides mechanism** (MAY): a rule MAY declare `overrides: <rule_id>` to
+express a scoped precedence relationship over another rule. The overriding rule
+is expected to carry equal or higher `priority` than the overridden rule. If
+`priority` and `overrides` contradict, the conflict policy applies.
+
+Default conflict resolution cascade:
+
+1. Higher layer wins.
+2. Within a layer, higher `priority` wins.
+3. If an `overrides` declaration exists, the declaring rule takes precedence
+   over the referenced rule for the declared scope.
+4. If a true conflict remains, halt (or request clarification). Do not guess.
+
+### Positional strategy (advisory)
+
+Physical rule order SHOULD reinforce priority:
+
+- **Head zone**: structural and interpretive rules (highest priority). Primacy
+  effect — models attend more strongly to early content.
+- **Body zone**: domain rules, ordered by descending priority.
+- **Tail zone**: meta and cross-cutting rules. Recency effect — models recall
+  recent content well.
 
 ## Conditions and exceptions (MUST, with an important anti-pattern)
 
