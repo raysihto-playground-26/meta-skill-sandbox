@@ -18,7 +18,7 @@ interpretation:
 
 globs:
   - ".*/skills/*/*.md"
-  - ".agents/skills/skill-alchemy/SKILL.md"
+  - ".*/skills/skill-alchemy/SKILL.md"
 
 rules:
   - id: canonical_structure
@@ -37,8 +37,9 @@ rules:
     level: MUST
     priority: 90
     statement: >-
-      MUST model structure and style exclusively after
-      .agents/skills/skill-alchemy/SKILL.md.
+      MUST model structure and style exclusively after the file at
+      .*/skills/skill-alchemy/SKILL.md. Re-read that path directly;
+      do not rely on already-loaded or cached content.
     conditions: creating_new_ai_directive_file
     exceptions:
       - name, description, globs, and domain-specific rules are expected to differ
@@ -48,6 +49,9 @@ rules:
       - priority_and_conflict
       - globs_in_body
       - english_authoring_language
+    forbidden:
+      - using any file other than .*/skills/skill-alchemy/SKILL.md as a structural or stylistic reference
+      - averaging or synthesizing patterns observed across multiple existing directive files
 
   - id: description_trigger_proactive
     level: MUST
