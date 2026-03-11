@@ -9,9 +9,11 @@ description: >-
 
 ```yaml
 interpretation:
+  unknown_keys: ignore
+  assumption: closed_world
+  extrapolation: forbidden
   precedence: explicit_priority_field
   priority_direction: higher_wins
-  assumption: closed_world
   conflict: ask
 
 globs:
@@ -23,46 +25,50 @@ rules:
     level: MUST
     priority: 100
     statement: >-
-      Every AI directive file MUST consist of exactly:
-      (1) YAML frontmatter (--- delimited),
-      (2) a single fenced YAML code block,
-      (3) nothing else.
+      Every AI directive file MUST consist of exactly
+      frontmatter (--- delimited YAML) and exactly_one_yaml_block_body
+      (single fenced YAML code block). Nothing else.
     forbidden:
-      - prose outside frontmatter and the YAML code block
+      - prose outside frontmatter and exactly_one_yaml_block_body
       - multiple code blocks
-      - any content after the closing code fence
+      - content after the closing code fence
 
   - id: reference_exemplar
     level: MUST
     priority: 90
     statement: >-
-      When creating a new AI directive file, the new file MUST model its
-      structure and style exclusively after
-      .agents/skills/skill-alchemy/SKILL.md
-      and no other files.
+      MUST model structure and style exclusively after
+      .agents/skills/skill-alchemy/SKILL.md.
     conditions: creating_new_ai_directive_file
+    exceptions:
+      - name, description, globs, and domain-specific rules are expected to differ
+    includes:
+      - interpretation_contract_placement
+      - closed_world_interpretation
+      - priority_and_conflict
+      - globs_in_body
+      - english_authoring_language
 
-  - id: description_trigger
+  - id: description_trigger_proactive
     level: MUST
     priority: 90
     statement: >-
-      The frontmatter description field MUST include trigger conditions:
-      when and in what contexts the skill activates.
+      The frontmatter description field MUST enumerate concrete trigger
+      scenarios (file-path patterns, agent actions, user-intent phrases,
+      or combinations thereof), a catch-all for unenumerated variants,
+      and a proactive directive ("When in doubt, trigger" or equivalent).
+    rationale: undertriggering is an empirically observed failure mode
     forbidden:
       - placing trigger conditions exclusively in the body
-
-  - id: description_pushy
-    level: SHOULD
-    priority: 85
-    statement: >-
-      The description SHOULD actively encourage triggering in relevant contexts.
-    rationale: undertriggering is an empirically observed failure mode
+      - passive trigger language ("Can be used when..." vs "MUST trigger when...")
     examples:
       - weak: "Commits staged changes with an auto-generated message."
         strong: >-
-          Commits staged changes with an auto-generated message. Use this skill
-          whenever the user asks to commit -- including casual variants
-          ("commit", "please commit"). When in doubt, prefer triggering.
+          Commits staged changes with an auto-generated message.
+          MUST trigger when user explicitly requests a commit via
+          "commit", "please commit", or any phrasing
+          that implies committing. Trigger proactively --
+          undertriggering is a known failure mode. When in doubt, trigger.
 
   - id: confirm_triggers
     level: SHOULD
@@ -76,65 +82,18 @@ rules:
     conditions: creating_new_ai_directive_file
     rationale: >-
       trigger conditions are the highest-impact, hardest-to-infer aspect
-      of a directive; undertriggering is a known failure mode
+      of a directive
 
-  - id: globs_match_target
-    level: MUST
-    priority: 75
-    statement: >-
-      globs MUST match the target files for the directive being defined.
-    forbidden:
-      - copying, reusing, or basing globs on the globs in this file
-    conditions: directive_has_target_paths
-    overrides: reference_exemplar
-
-  - id: conditional_rule_form
+  - id: condition_field_form
     level: MUST
     priority: 70
     statement: >-
-      Conditional rules MUST use explicit condition triggers
-      (enumerations), not prose.
+      The conditions field, when present, MUST be an explicit
+      enumeration of triggers -- not prose.
     forbidden:
       - prose-embedded conditions in statement text
-
-  - id: unconditional_rule_form
-    level: MUST
-    priority: 70
-    statement: >-
-      Unconditional rules MUST omit the conditions field entirely.
-    forbidden:
       - "conditions: always"
-
-  - id: interpretation_contract_placement
-    level: MUST
-    priority: 80
-    statement: >-
-      Any binding interpretation contract MUST be encoded inside the YAML
-      block, not as prose.
-
-  - id: closed_world_interpretation
-    level: MUST
-    priority: 80
-    statement: >-
-      AI directive files MUST declare closed-world interpretation
-      semantics in the interpretation section of the YAML block.
-      Unspecified behavior MUST be forbidden. The model MUST NOT
-      fill gaps autonomously beyond what is explicitly declared.
-
-  - id: priority_and_conflict
-    level: MUST
-    priority: 80
-    statement: >-
-      Directive files MUST define a stable precedence mechanism and a
-      deterministic conflict policy with a safe failure mode.
-
-  - id: globs_in_body
-    level: MUST
-    priority: 60
-    statement: >-
-      The directive MUST declare a top-level globs key inside the YAML body block
-      listing the paths it must auto-apply to.
-    conditions: directive_has_target_paths
+      - conditions field on unconditional rules
 
   - id: yaml_validity
     level: MUST
