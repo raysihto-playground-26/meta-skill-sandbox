@@ -18,16 +18,15 @@ interpretation:
 
 globs:
   - ".*/skills/*/*.md"
-  - ".agents/skills/skill-alchemy/SKILL.md"
+  - ".*/skills/skill-alchemy/SKILL.md"
 
 rules:
   - id: canonical_structure
     level: MUST
     priority: 100
     statement: >-
-      Every AI directive file MUST consist of exactly
-      frontmatter (--- delimited YAML) and exactly_one_yaml_block_body
-      (single fenced YAML code block). Nothing else.
+      Every AI directive file MUST consist of exactly frontmatter (--- delimited YAML)
+      and exactly_one_yaml_block_body (single fenced YAML code block). Nothing else.
     forbidden:
       - prose outside frontmatter and exactly_one_yaml_block_body
       - multiple code blocks
@@ -37,8 +36,9 @@ rules:
     level: MUST
     priority: 90
     statement: >-
-      MUST model structure and style exclusively after
-      .agents/skills/skill-alchemy/SKILL.md.
+      MUST model structure and style exclusively after skill-alchemy/SKILL.md.
+      Resolve the glob .*/skills/skill-alchemy/SKILL.md to a concrete path,
+      then re-read the resolved file in full.
     conditions: creating_new_ai_directive_file
     exceptions:
       - name, description, globs, and domain-specific rules are expected to differ
@@ -48,15 +48,20 @@ rules:
       - priority_and_conflict
       - globs_in_body
       - english_authoring_language
+    forbidden:
+      - using other existing directive files as structural or stylistic references
+      - averaging or synthesizing patterns from multiple existing files
+      - replicating body keys or fields from other sources without domain-specific failure-prevention justification
+      - relying on cached or already-loaded content instead of re-reading the exemplar
 
   - id: description_trigger_proactive
     level: MUST
     priority: 90
     statement: >-
-      The frontmatter description field MUST enumerate concrete trigger
-      scenarios (file-path patterns, agent actions, user-intent phrases,
-      or combinations thereof), a catch-all for unenumerated variants,
-      and a proactive directive ("When in doubt, trigger" or equivalent).
+      The frontmatter description field MUST enumerate concrete trigger scenarios
+      (file-path patterns, agent actions, user-intent phrases, or combinations thereof),
+      a catch-all for unenumerated variants, and a proactive directive
+      ("When in doubt, trigger" or equivalent).
     rationale: undertriggering is an empirically observed failure mode
     forbidden:
       - placing trigger conditions exclusively in the body
@@ -75,8 +80,8 @@ rules:
     priority: 85
     statement: >-
       Before drafting a new directive file, the agent SHOULD ask the user
-      to specify or confirm the skill's trigger conditions -- when, in what
-      contexts, and on what user actions the skill should activate.
+      to specify or confirm the skill's trigger conditions --
+      when, in what contexts, and on what user actions the skill should activate.
       If the runtime environment does not support interactive prompting,
       infer from available context and document assumptions in the output.
     conditions: creating_new_ai_directive_file
@@ -88,8 +93,7 @@ rules:
     level: MUST
     priority: 70
     statement: >-
-      The conditions field, when present, MUST be an explicit
-      enumeration of triggers -- not prose.
+      The conditions field, when present, MUST be an explicit enumeration of triggers -- not prose.
     forbidden:
       - prose-embedded conditions in statement text
       - "conditions: always"
@@ -106,16 +110,16 @@ rules:
     level: MUST
     priority: 80
     statement: >-
-      This file is itself an AI directive file. Any modification to this
-      file MUST preserve compliance with all rules defined herein.
+      This file is itself an AI directive file.
+      Any modification to this file MUST preserve compliance with all rules defined herein.
 
   - id: lean_and_mean
     level: MUST
     priority: 90
     statement: >-
-      Omit anything obvious or safely implicit. Do not omit anything
-      whose absence would predictably cause failures. Prefer constraint
-      density over completeness.
+      Omit anything obvious or safely implicit.
+      Do not omit anything whose absence would predictably cause failures.
+      Prefer constraint density over completeness.
     forbidden:
       - redundant rationale or definitions for self-evident terms
       - verbose statements where a concise form suffices
